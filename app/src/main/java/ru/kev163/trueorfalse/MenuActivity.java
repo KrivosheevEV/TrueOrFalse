@@ -58,7 +58,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.buttonExit:
                 finish();
-                //moveTaskToBack(true);
                 System.exit(0);
                 break;
         }

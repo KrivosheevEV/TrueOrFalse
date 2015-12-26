@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class current_answer extends Activity implements View.OnClickListener{
 
@@ -59,5 +60,14 @@ public class current_answer extends Activity implements View.OnClickListener{
         Questions.indexOfQuestion++;
         startActivity(activityMainActivity);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Questions.indexOfQuestion++;
+        startActivity(activityMainActivity);
+        finish();
+
     }
 }

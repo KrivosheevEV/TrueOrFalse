@@ -11,4 +11,11 @@
     <string name="buttonExit_Text">Выход</string>
     <string name="textViewQuestionsBar">Общее количество вопросов:</string>
     <string name="textViewAnswerBar">Правильные ответы:</string>
+    <string name="textView_Result_CurrentAnswers_Text">Количество правильных ответов:</string>
+    <string name="textView_Result_NotCurrentAnswers_Text">Количество неправильных ответов:</string>
+    <string name="textView_RatioAnswers_Text">Коэффициент правильных ответов:</string>
+    <string name="textView_Result_CountOfQuestionsResult">100</string>
+    <string name="textView_Result_CurrentAnswers_Result">30</string>
+    <string name="textView_Result_NotCurrentAnswers_Result">70</string>
+    <string name="textView_RatioAnswers_Result">30%</string>
 </resources>

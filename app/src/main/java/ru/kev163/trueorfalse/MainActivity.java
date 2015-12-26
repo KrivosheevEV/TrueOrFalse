@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    Intent activityCurrentAnswer, activityMenu;
+    Intent activityCurrentAnswer, activityMenu, activityFinishActivity;
     Button buttonTrue, buttonFalse;
     TextView answerBar_Current, answerBar_NotCurrent, questionBar_Quantity, questionBar_Count;
     private static long back_pressed;
@@ -32,7 +32,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         activityCurrentAnswer = new Intent(this, current_answer.class);
-        activityMenu = new Intent(this, MenuActivity.class);
+        activityFinishActivity = new Intent(this, FinishActivity.class);
+
+//        activityMenu = new Intent(this, MenuActivity.class);
         answerBar_Current = (TextView)findViewById(R.id.textViewAnswerCurrent);
         answerBar_NotCurrent = (TextView)findViewById(R.id.textViewAnswerNotCurrent);
         questionBar_Quantity = (TextView)findViewById(R.id.textViewQuestionQuantity);
@@ -44,10 +46,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         buttonFalse.setOnClickListener(this);
 
         if (Questions.countOfQuestion >= Questions.ArrayOfQuestions.length){
-            Questions.countOfQuestion = 0;
-            Questions.indexOfQuestion = 0;
-            Arrays.fill(Questions.ArrayOfUserAnswer, false);
-            startActivity(activityMenu);
+            startActivity(activityFinishActivity);
+            finish();
+//            Questions.countOfQuestion = 0;
+//            Questions.indexOfQuestion = 0;
+//            Arrays.fill(Questions.ArrayOfUserAnswer, false);
         }else {
             SetNewQuestion(Questions.indexOfQuestion);
             Questions.countOfQuestion++;
@@ -133,12 +136,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onBackPressed() {
 
         if (back_pressed + 2000 > System.currentTimeMillis()) {
-//            finish();
-//            moveTaskToBack(true);
-//            super.onDestroy();
-            System.exit(0);
+            startActivity(activityFinishActivity);
+            finish();
         } else {
-            Toast.makeText(getBaseContext(), "Нажмите еще раз для выхода", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Нажмите еще раз для завершения теста", Toast.LENGTH_SHORT).show();
         }
 
         back_pressed = System.currentTimeMillis();
