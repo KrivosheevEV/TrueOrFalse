@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Правда или Ложь?</string>
+    <string name="fileForQuestions">filequestions</string>
+    <string name="buttonFalseText">Ложь</string>
+    <string name="buttonTrueText">Правда</string>
+    <string name="CountCurrentUserAnswers">0</string>
+    <string name="CountUserNotCurrentAnswers">0</string>
+    <string name="hintOfCurrentAnswer">..коснитесь экрана для возврата..</string>
+    <string name="buttonStart_Text">Начать</string>
+    <string name="buttonSetting_Text">Настройки</string>
+    <string name="buttonExit_Text">Выход</string>
+    <string name="textViewQuestionsBar">Общее количество вопросов:</string>
+    <string name="textViewAnswerBar">Правильные ответы:</string>
+</resources>
