@@ -21,6 +21,8 @@ public class FinishActivity extends Activity implements View.OnClickListener  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        int countOfQuestion_, countOfQuestion, countCurrentUserAnswers, countNotCurrentUserAnswers, ratioOfAnswers;
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -37,10 +39,18 @@ public class FinishActivity extends Activity implements View.OnClickListener  {
         textView_Result_NotCurrentAnswers_Result = (TextView)findViewById(R.id.textView_Result_NotCurrentAnswers_Result);
         textView_Result_RatioAnswers_Result = (TextView)findViewById(R.id.textView_Result_RatioAnswers_Result);
 
-        int countOfQuestion = Questions.countOfQuestion;
-        int countCurrentUserAnswers = Questions.GetCountCurrentUserAnswers();
-        int countNotCurrentUserAnswers = countOfQuestion - countCurrentUserAnswers;
-        int ratioOfAnswers = (countCurrentUserAnswers * 100) / countOfQuestion;
+        countOfQuestion_ = Questions.countOfQuestion;
+        if (countOfQuestion_ > 0){
+            countOfQuestion =  countOfQuestion_ - 1;
+            countCurrentUserAnswers = Questions.GetCountCurrentUserAnswers();
+            countNotCurrentUserAnswers = countOfQuestion - countCurrentUserAnswers;
+            ratioOfAnswers = (countCurrentUserAnswers * 100) / countOfQuestion;
+        }else{
+            countOfQuestion = 0;
+            countCurrentUserAnswers = 0;
+            countNotCurrentUserAnswers = 0;
+            ratioOfAnswers = 0;
+        }
 
         textView_Result_CountOfQuestionsResult.setText(Integer.toString(countOfQuestion));
         textView_Result_CurrentAnswers_Result.setText(Integer.toString(countCurrentUserAnswers));
