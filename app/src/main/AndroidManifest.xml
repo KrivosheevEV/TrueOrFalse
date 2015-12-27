@@ -11,6 +11,23 @@
             android:name=".MainActivity"/>
         <activity
             android:name=".current_answer">
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "recipe-app://recipes" -->
+                <data android:scheme="trueorfalse"
+                    android:host="trueorfalse" />
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://recipe-app.com/recipes" -->
+                <data android:scheme="http"
+                    android:host="trueorfalse.ru"
+                    android:pathPrefix="/index.html" />
+            </intent-filter>
             <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
@@ -18,9 +35,11 @@
         <activity android:name=".MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version" />
         </activity>
         <activity
             android:name=".FinishActivity"/><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
