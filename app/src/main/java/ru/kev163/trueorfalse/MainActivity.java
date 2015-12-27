@@ -2,6 +2,7 @@ package ru.kev163.trueorfalse;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,15 +12,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    Intent activityCurrentAnswer, activityMenu;
-    Button buttonTrue, buttonFalse;
-    TextView answerBar_Current, answerBar_NotCurrent, questionBar_Quantity, questionBar_Count;
+    private Intent activityCurrentAnswer, activityFinishActivity;
+    //private Button buttonTrue, buttonFalse;
+    //private TextView answerBar_Current, answerBar_NotCurrent, questionBar_Quantity, questionBar_Count;
     private static long back_pressed;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,42 +40,49 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         activityCurrentAnswer = new Intent(this, current_answer.class);
-        activityMenu = new Intent(this, MenuActivity.class);
-        answerBar_Current = (TextView)findViewById(R.id.textViewAnswerCurrent);
-        answerBar_NotCurrent = (TextView)findViewById(R.id.textViewAnswerNotCurrent);
-        questionBar_Quantity = (TextView)findViewById(R.id.textViewQuestionQuantity);
-        questionBar_Count = (TextView)findViewById(R.id.textViewQuestionCount);
+        activityFinishActivity = new Intent(this, FinishActivity.class);
 
-        buttonTrue = (Button) findViewById(R.id.buttonTrue);
-        buttonFalse = (Button) findViewById(R.id.buttonFalse);
+//        activityMenu = new Intent(this, MenuActivity.class);
+
+
+        Button buttonTrue = (Button) findViewById(R.id.buttonTrue);
+        Button buttonFalse = (Button) findViewById(R.id.buttonFalse);
         buttonTrue.setOnClickListener(this);
         buttonFalse.setOnClickListener(this);
 
-        if (Questions.countOfQuestion >= Questions.ArrayOfQuestions.length){
-            Questions.countOfQuestion = 0;
-            Questions.indexOfQuestion = 0;
-            Arrays.fill(Questions.ArrayOfUserAnswer, false);
-            startActivity(activityMenu);
-        }else {
+        if (Questions.countOfQuestion >= Questions.ArrayOfQuestions.length) {
+            startActivity(activityFinishActivity);
+            finish();
+//            Questions.countOfQuestion = 0;
+//            Questions.indexOfQuestion = 0;
+//            Arrays.fill(Questions.ArrayOfUserAnswer, false);
+        } else {
             SetNewQuestion(Questions.indexOfQuestion);
             Questions.countOfQuestion++;
         }
 
         SetAnswerBar(Questions.countOfQuestion, Questions.GetCountCurrentUserAnswers());
         SetQuestionBar(Questions.countOfQuestion, Questions.ArrayOfQuestions.length);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void SetAnswerBar(int countOfQuestion, int countCurrentUserAnswers) {
 
         int countNotCurrentUserAnswers = countOfQuestion - countCurrentUserAnswers - 1;
 
-        float weightCurrentActionBar = (float)(countCurrentUserAnswers);
-        float weightNotCurrentActionBar = (float)(countNotCurrentUserAnswers);
+        float weightCurrentActionBar = (float) (countCurrentUserAnswers);
+        float weightNotCurrentActionBar = (float) (countNotCurrentUserAnswers);
 
-        if (weightCurrentActionBar == 0 & weightNotCurrentActionBar == 0){
+        if (weightCurrentActionBar == 0 & weightNotCurrentActionBar == 0) {
             weightCurrentActionBar = 1;
             weightNotCurrentActionBar = 1;
         }
+
+        TextView answerBar_Current = (TextView) findViewById(R.id.textViewAnswerCurrent);
+        TextView  answerBar_NotCurrent = (TextView) findViewById(R.id.textViewAnswerNotCurrent);
+
 
         answerBar_Current.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightCurrentActionBar));
         answerBar_NotCurrent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightNotCurrentActionBar));
@@ -78,13 +93,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void SetQuestionBar(int countOfQuestion, int quantityQuestions) {
 
-        float weightCountQuestionsBar = (float)(countOfQuestion);
-        float weightQuantityQuestionsBar = (float)(quantityQuestions - countOfQuestion);
+        float weightCountQuestionsBar = (float) (countOfQuestion);
+        float weightQuantityQuestionsBar = (float) (quantityQuestions - countOfQuestion);
 
-        if (weightCountQuestionsBar == 0 & weightQuantityQuestionsBar == 0){
+        if (weightCountQuestionsBar == 0 & weightQuantityQuestionsBar == 0) {
             weightCountQuestionsBar = 1;
             weightQuantityQuestionsBar = 1;
         }
+
+        TextView questionBar_Quantity = (TextView) findViewById(R.id.textViewQuestionQuantity);
+        TextView questionBar_Count = (TextView) findViewById(R.id.textViewQuestionCount);
 
         questionBar_Count.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightCountQuestionsBar));
         questionBar_Quantity.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightQuantityQuestionsBar));
@@ -93,13 +111,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         questionBar_Quantity.setText(Integer.toString(quantityQuestions));
     }
 
-    public void buttonTrueClick(View view) {
-    }
-
-    public void buttonFalseClick(View view) {
-    }
-
-    public void SetNewQuestion(int IndexOfNewQuestion) {
+    private void SetNewQuestion(int IndexOfNewQuestion) {
 
         String TextOfNewQuestion = Questions.GetQuestionTextByIndex(IndexOfNewQuestion);
         TextView textView = (TextView) findViewById(R.id.textViewQuestionText);
@@ -111,7 +123,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         Boolean userAnswer;
 
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.buttonTrue:
                 userAnswer = true;
                 break;
@@ -133,15 +145,52 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onBackPressed() {
 
         if (back_pressed + 2000 > System.currentTimeMillis()) {
-//            finish();
-//            moveTaskToBack(true);
-//            super.onDestroy();
-            System.exit(0);
+            startActivity(activityFinishActivity);
+            finish();
         } else {
-            Toast.makeText(getBaseContext(), "Нажмите еще раз для выхода", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Нажмите еще раз для завершения теста", Toast.LENGTH_SHORT).show();
         }
 
         back_pressed = System.currentTimeMillis();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://ru.kev163.trueorfalse/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://ru.kev163.trueorfalse/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }

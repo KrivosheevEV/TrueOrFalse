@@ -1,24 +1,24 @@
 package ru.kev163.trueorfalse;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-public class current_answer extends Activity implements View.OnClickListener {
+public class FinishActivity extends Activity implements View.OnClickListener {
 
-    private Intent activityMainActivity;
-    //private LinearLayout layoutCurrentAnswer;
+    private static long back_pressed;
+    //Intent activityFinishActivity;
+    //TextView textView_Result_CountOfQuestionsResult, textView_Result_CurrentAnswers_Result, textView_Result_NotCurrentAnswers_Result, textView_Result_RatioAnswers_Result;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -29,29 +29,41 @@ public class current_answer extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        int countOfQuestion_, countOfQuestion, countCurrentUserAnswers, countNotCurrentUserAnswers, ratioOfAnswers;
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.current_answer);
 
-        activityMainActivity = new Intent(this, MainActivity.class);
-        LinearLayout layoutCurrentAnswer = (LinearLayout) findViewById(R.id.layoutCurrentAnswer);
-        layoutCurrentAnswer.setOnClickListener(this);
+        setContentView(R.layout.activity_finish);
 
-        boolean userAnswer = Questions.ArrayOfUserAnswer[Questions.indexOfQuestion];
+        //activityFinishActivity = new Intent(this, FinishActivity.class);
 
-        Boolean CurrentAnswer = Questions.GetCurrentAnswerByIndex(Questions.indexOfQuestion);
-        Boolean AnswerIsCorrect = userAnswer == CurrentAnswer;
-        Questions.SetUserAnswer(Questions.indexOfQuestion, AnswerIsCorrect);
+        Button buttonExit_Result = (Button) findViewById(R.id.buttonExit_Result);
+        buttonExit_Result.setOnClickListener(this);
 
-        String TextOfAnswer = AnswerIsCorrect ? "Да, " : "Нет, ";
-        TextOfAnswer = TextOfAnswer + (CurrentAnswer ? "утверждение правдиво!" : "утверждение ложно.");
-        TextOfAnswer = TextOfAnswer + "\n\n" + Questions.GetAnswerTextByIndex(Questions.indexOfQuestion);
-        TextView textView = (TextView) findViewById(R.id.textView_CurrentAnswer);
-        textView.setText(TextOfAnswer);
+        TextView textView_Result_CountOfQuestionsResult = (TextView) findViewById(R.id.textView_Result_CountOfQuestionsResult);
+        TextView textView_Result_CurrentAnswers_Result = (TextView) findViewById(R.id.textView_Result_CurrentAnswers_Result);
+        TextView textView_Result_NotCurrentAnswers_Result = (TextView) findViewById(R.id.textView_Result_NotCurrentAnswers_Result);
+        TextView textView_Result_RatioAnswers_Result = (TextView) findViewById(R.id.textView_Result_RatioAnswers_Result);
 
-        int BackgroundColor = AnswerIsCorrect ? R.color.colorMy1Green : R.color.colorMy1Red;
-        textView.setBackgroundColor(ContextCompat.getColor(this, BackgroundColor));
+        countOfQuestion_ = Questions.countOfQuestion;
+        if (countOfQuestion_ > 1) {
+            countOfQuestion = countOfQuestion_ - 1;
+            countCurrentUserAnswers = Questions.GetCountCurrentUserAnswers();
+            countNotCurrentUserAnswers = countOfQuestion - countCurrentUserAnswers;
+            ratioOfAnswers = (countCurrentUserAnswers * 100) / countOfQuestion;
+        } else {
+            countOfQuestion = 0;
+            countCurrentUserAnswers = 0;
+            countNotCurrentUserAnswers = 0;
+            ratioOfAnswers = 0;
+        }
+
+        textView_Result_CountOfQuestionsResult.setText(Integer.toString(countOfQuestion));
+        textView_Result_CurrentAnswers_Result.setText(Integer.toString(countCurrentUserAnswers));
+        textView_Result_NotCurrentAnswers_Result.setText(Integer.toString(countNotCurrentUserAnswers));
+        textView_Result_RatioAnswers_Result.setText(Integer.toString(ratioOfAnswers) + "%");
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -61,18 +73,30 @@ public class current_answer extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        Questions.indexOfQuestion++;
-        startActivity(activityMainActivity);
-        finish();
+        switch (v.getId()) {
+            case R.id.buttonExit_Result:
+                finish();
+                System.exit(0);
+                break;
+            default:
+                finish();
+                System.exit(0);
+                break;
+        }
+
     }
 
     @Override
     public void onBackPressed() {
 
-        Questions.indexOfQuestion++;
-        startActivity(activityMainActivity);
-        finish();
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
+            finish();
+            System.exit(0);
+        } else {
+            Toast.makeText(getBaseContext(), "Нажмите еще раз для выхода", Toast.LENGTH_SHORT).show();
+        }
 
+        back_pressed = System.currentTimeMillis();
     }
 
     @Override
@@ -84,7 +108,7 @@ public class current_answer extends Activity implements View.OnClickListener {
         client.connect();
         Action viewAction = Action.newAction(
                 Action.TYPE_VIEW, // TODO: choose an action type.
-                "current_answer Page", // TODO: Define a title for the content shown.
+                "Finish Page", // TODO: Define a title for the content shown.
                 // TODO: If you have web page content that matches this app activity's content,
                 // make sure this auto-generated web page URL is correct.
                 // Otherwise, set the URL to null.
@@ -103,7 +127,7 @@ public class current_answer extends Activity implements View.OnClickListener {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         Action viewAction = Action.newAction(
                 Action.TYPE_VIEW, // TODO: choose an action type.
-                "current_answer Page", // TODO: Define a title for the content shown.
+                "Finish Page", // TODO: Define a title for the content shown.
                 // TODO: If you have web page content that matches this app activity's content,
                 // make sure this auto-generated web page URL is correct.
                 // Otherwise, set the URL to null.
