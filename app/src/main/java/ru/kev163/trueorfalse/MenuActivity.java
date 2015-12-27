@@ -44,6 +44,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         }
 
         readFileQuestions(this, R.raw.filequestions);
+        Questions.fillArraOfNumQuestions();
         Questions.shuffleArray(Questions.ArrayOfQuestions);
     }
 

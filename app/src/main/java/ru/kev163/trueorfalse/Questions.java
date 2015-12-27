@@ -6,6 +6,7 @@ class Questions {
 
     static String[][] ArrayOfQuestions;
     static boolean[] ArrayOfUserAnswer;
+    static int[] ArrayOfNumQuestions;
     static int indexOfQuestion, countOfQuestion;
 
     public static String GetQuestionTextByIndex(int IndexOfQuestion) {
@@ -85,4 +86,7 @@ class Questions {
     }
 
 
+    public static void fillArraOfNumQuestions() {
+        
+    }
 }

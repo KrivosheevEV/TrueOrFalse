@@ -18,4 +18,5 @@
     <string name="textView_Result_CurrentAnswers_Result">30</string>
     <string name="textView_Result_NotCurrentAnswers_Result">70</string>
     <string name="textView_RatioAnswers_Result">30%</string>
+    <string name="buttonResume_Text">Продолжить</string>
 </resources>
