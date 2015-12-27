@@ -14,7 +14,7 @@ public class FinishActivity extends Activity implements View.OnClickListener  {
 
     private static long back_pressed;
     Button buttonExit_Result;
-    Intent activityFinishActivity;
+    //Intent activityFinishActivity;
     TextView textView_Result_CountOfQuestionsResult, textView_Result_CurrentAnswers_Result, textView_Result_NotCurrentAnswers_Result, textView_Result_RatioAnswers_Result;
 
     @Override
@@ -29,7 +29,7 @@ public class FinishActivity extends Activity implements View.OnClickListener  {
 
         setContentView(R.layout.activity_finish);
 
-        activityFinishActivity = new Intent(this, MainActivity.class);
+        //activityFinishActivity = new Intent(this, FinishActivity.class);
 
         buttonExit_Result = (Button) findViewById(R.id.buttonExit_Result);
         buttonExit_Result.setOnClickListener(this);
@@ -40,7 +40,7 @@ public class FinishActivity extends Activity implements View.OnClickListener  {
         textView_Result_RatioAnswers_Result = (TextView)findViewById(R.id.textView_Result_RatioAnswers_Result);
 
         countOfQuestion_ = Questions.countOfQuestion;
-        if (countOfQuestion_ > 0){
+        if (countOfQuestion_ > 1){
             countOfQuestion =  countOfQuestion_ - 1;
             countCurrentUserAnswers = Questions.GetCountCurrentUserAnswers();
             countNotCurrentUserAnswers = countOfQuestion - countCurrentUserAnswers;
@@ -61,8 +61,6 @@ public class FinishActivity extends Activity implements View.OnClickListener  {
 
     @Override
     public void onClick(View v) {
-
-        Boolean userAnswer;
 
         switch(v.getId()) {
             case R.id.buttonExit_Result:
