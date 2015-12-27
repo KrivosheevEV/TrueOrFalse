@@ -2,7 +2,7 @@ package ru.kev163.trueorfalse;
 
 import java.util.Random;
 
-public class Questions {
+class Questions {
 
     static String[][] ArrayOfQuestions;
     static boolean[] ArrayOfUserAnswer;
@@ -51,7 +51,7 @@ public class Questions {
 
     }
 
-    public static void insertQuestuionsInArray(String lineFromFile, int indexOfAddedQuestion){
+    public static void insertQuestionsInArray(String lineFromFile, int indexOfAddedQuestion){
 
         String arrayFromString[] = lineFromFile.split("//");
 

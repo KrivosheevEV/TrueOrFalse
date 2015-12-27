@@ -3,8 +3,6 @@ package ru.kev163.trueorfalse;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -19,8 +17,8 @@ import java.util.Arrays;
 
 public class MenuActivity extends Activity implements View.OnClickListener {
 
-    Intent activityMainActivity;
-    Button buttonStart, buttonExit;
+    private Intent activityMainActivity;
+    //Button buttonStart, buttonExit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +32,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
         activityMainActivity = new Intent(this, MainActivity.class);
 
-        buttonStart = (Button) findViewById(R.id.buttonStart);
-        buttonExit = (Button) findViewById(R.id.buttonExit);
+        Button buttonStart = (Button) findViewById(R.id.buttonStart);
+        Button buttonExit = (Button) findViewById(R.id.buttonExit);
         buttonStart.setOnClickListener(this);
         buttonExit.setOnClickListener(this);
 
@@ -79,7 +77,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 if (lineFromFile.isEmpty()){
                     return;
                 }else {
-                    Questions.insertQuestuionsInArray(lineFromFile, countOfLines++);
+                    Questions.insertQuestionsInArray(lineFromFile, countOfLines++);
                 }
             }
         } catch (IOException e) {

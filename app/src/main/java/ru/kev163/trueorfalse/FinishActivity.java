@@ -1,7 +1,7 @@
 package ru.kev163.trueorfalse;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -10,12 +10,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FinishActivity extends Activity implements View.OnClickListener  {
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+public class FinishActivity extends Activity implements View.OnClickListener {
 
     private static long back_pressed;
-    Button buttonExit_Result;
     //Intent activityFinishActivity;
-    TextView textView_Result_CountOfQuestionsResult, textView_Result_CurrentAnswers_Result, textView_Result_NotCurrentAnswers_Result, textView_Result_RatioAnswers_Result;
+    //TextView textView_Result_CountOfQuestionsResult, textView_Result_CurrentAnswers_Result, textView_Result_NotCurrentAnswers_Result, textView_Result_RatioAnswers_Result;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +39,21 @@ public class FinishActivity extends Activity implements View.OnClickListener  {
 
         //activityFinishActivity = new Intent(this, FinishActivity.class);
 
-        buttonExit_Result = (Button) findViewById(R.id.buttonExit_Result);
+        Button buttonExit_Result = (Button) findViewById(R.id.buttonExit_Result);
         buttonExit_Result.setOnClickListener(this);
 
-        textView_Result_CountOfQuestionsResult = (TextView)findViewById(R.id.textView_Result_CountOfQuestionsResult);
-        textView_Result_CurrentAnswers_Result = (TextView)findViewById(R.id.textView_Result_CurrentAnswers_Result);
-        textView_Result_NotCurrentAnswers_Result = (TextView)findViewById(R.id.textView_Result_NotCurrentAnswers_Result);
-        textView_Result_RatioAnswers_Result = (TextView)findViewById(R.id.textView_Result_RatioAnswers_Result);
+        TextView textView_Result_CountOfQuestionsResult = (TextView) findViewById(R.id.textView_Result_CountOfQuestionsResult);
+        TextView textView_Result_CurrentAnswers_Result = (TextView) findViewById(R.id.textView_Result_CurrentAnswers_Result);
+        TextView textView_Result_NotCurrentAnswers_Result = (TextView) findViewById(R.id.textView_Result_NotCurrentAnswers_Result);
+        TextView textView_Result_RatioAnswers_Result = (TextView) findViewById(R.id.textView_Result_RatioAnswers_Result);
 
         countOfQuestion_ = Questions.countOfQuestion;
-        if (countOfQuestion_ > 1){
-            countOfQuestion =  countOfQuestion_ - 1;
+        if (countOfQuestion_ > 1) {
+            countOfQuestion = countOfQuestion_ - 1;
             countCurrentUserAnswers = Questions.GetCountCurrentUserAnswers();
             countNotCurrentUserAnswers = countOfQuestion - countCurrentUserAnswers;
             ratioOfAnswers = (countCurrentUserAnswers * 100) / countOfQuestion;
-        }else{
+        } else {
             countOfQuestion = 0;
             countCurrentUserAnswers = 0;
             countNotCurrentUserAnswers = 0;
@@ -57,12 +65,15 @@ public class FinishActivity extends Activity implements View.OnClickListener  {
         textView_Result_NotCurrentAnswers_Result.setText(Integer.toString(countNotCurrentUserAnswers));
         textView_Result_RatioAnswers_Result.setText(Integer.toString(ratioOfAnswers) + "%");
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     public void onClick(View v) {
 
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.buttonExit_Result:
                 finish();
                 System.exit(0);
@@ -88,4 +99,43 @@ public class FinishActivity extends Activity implements View.OnClickListener  {
         back_pressed = System.currentTimeMillis();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Finish Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://ru.kev163.trueorfalse/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Finish Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://ru.kev163.trueorfalse/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }
