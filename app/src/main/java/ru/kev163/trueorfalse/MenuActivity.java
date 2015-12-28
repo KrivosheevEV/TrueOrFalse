@@ -3,22 +3,27 @@ package ru.kev163.trueorfalse;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MenuActivity extends Activity implements View.OnClickListener {
 
     private Intent activityMainActivity;
-    //Button buttonStart, buttonExit;
+    private SharedPreferences mySharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +38,13 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         activityMainActivity = new Intent(this, MainActivity.class);
 
         Button buttonStart = (Button) findViewById(R.id.buttonStart);
+        Button buttonResume = (Button) findViewById(R.id.buttonResume);
         Button buttonExit = (Button) findViewById(R.id.buttonExit);
         buttonStart.setOnClickListener(this);
+        buttonResume.setOnClickListener(this);
         buttonExit.setOnClickListener(this);
+
+        mySharedPreferences = getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE);
 
         Questions.countOfQuestion = 0;
         Questions.indexOfQuestion = 0;
@@ -44,8 +53,9 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         }
 
         readFileQuestions(this, R.raw.filequestions);
-        Questions.fillArraOfNumQuestions();
-        Questions.shuffleArray(Questions.ArrayOfQuestions);
+
+
+        Questions.fillArrayOfNumQuestions(Questions.ArrayOfQuestions.length);
     }
 
     @Override
@@ -53,14 +63,19 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
         switch(v.getId()) {
             case R.id.buttonStart:
+                finish();
                 startActivity(activityMainActivity);
+                break;
+            case R.id.buttonResume:
+                loadSettings();
                 break;
             case R.id.buttonExit:
                 finish();
                 System.exit(0);
                 break;
         }
-        finish();
+
+
 
     }
 
@@ -85,4 +100,14 @@ public class MenuActivity extends Activity implements View.OnClickListener {
             //return null;
         }
     }
+
+    public void loadSettings()
+    {
+        Set<String> ret = mySharedPreferences.getStringSet("preferencesTrueOrFalse", new HashSet<String>());
+//        for(String r : ret) {
+//           // Log.i("Share", "Имя кота: " + r);
+
+        Toast.makeText(getApplicationContext(), Integer.toString(ret.size()), Toast.LENGTH_SHORT).show();
+        }
+
 }

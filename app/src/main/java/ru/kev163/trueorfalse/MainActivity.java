@@ -1,7 +1,9 @@
 package ru.kev163.trueorfalse;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +18,9 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -23,6 +28,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     //private Button buttonTrue, buttonFalse;
     //private TextView answerBar_Current, answerBar_NotCurrent, questionBar_Quantity, questionBar_Count;
     private static long back_pressed;
+    private SharedPreferences mySharedPreferences;
+    public static final String APP_PREFERENCES = "settingsTrueOrFalse";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -43,7 +50,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         activityFinishActivity = new Intent(this, FinishActivity.class);
 
 //        activityMenu = new Intent(this, MenuActivity.class);
-
+        mySharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
         Button buttonTrue = (Button) findViewById(R.id.buttonTrue);
         Button buttonFalse = (Button) findViewById(R.id.buttonFalse);
@@ -118,6 +125,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
         textView.setText(TextOfNewQuestion);
     }
 
+    public void saveSettings(){
+
+        Set<String> preferencesNumOfQuestions = new HashSet<>();
+        for (int countOfArray = 0; countOfArray < Questions.ArrayOfNumQuestions.length; countOfArray++) {
+            preferencesNumOfQuestions.add(Integer.toString(Questions.ArrayOfNumQuestions[countOfArray]));
+        }
+
+        SharedPreferences.Editor e = mySharedPreferences.edit();
+        e.putStringSet(APP_PREFERENCES, preferencesNumOfQuestions);
+        e.apply();
+
+        Toast.makeText(getApplicationContext(), Integer.toString(preferencesNumOfQuestions.size()), Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -136,6 +157,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
         Questions.SetUserAnswer(Questions.indexOfQuestion, userAnswer);
+
+//        Toast.makeText(getApplicationContext(), Boolean.toString(userAnswer), Toast.LENGTH_SHORT).show();
+        saveSettings();
 
         startActivity(activityCurrentAnswer);
         finish();
@@ -192,5 +216,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+
+
     }
+
+
+
 }

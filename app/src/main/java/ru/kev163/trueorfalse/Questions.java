@@ -12,18 +12,18 @@ class Questions {
     public static String GetQuestionTextByIndex(int IndexOfQuestion) {
 
         if (ArrayOfQuestions == null || indexOfQuestion > ArrayOfQuestions.length - 1){return "";}
-        return ArrayOfQuestions[IndexOfQuestion][0];
+        return ArrayOfQuestions[ArrayOfNumQuestions[IndexOfQuestion]][0];
     }
     public static String GetAnswerTextByIndex(int IndexOfQuestion) {
 
         if (ArrayOfQuestions == null || indexOfQuestion > ArrayOfQuestions.length - 1){return "";}
-        return ArrayOfQuestions[IndexOfQuestion][1];
+        return ArrayOfQuestions[ArrayOfNumQuestions[IndexOfQuestion]][1];
     }
 
     public static Boolean GetCurrentAnswerByIndex(int IndexOfQuestion) {
 
         if (ArrayOfQuestions == null || indexOfQuestion > ArrayOfQuestions.length - 1){return false;}
-        return ArrayOfQuestions[IndexOfQuestion][2].equals("+");
+        return ArrayOfQuestions[ArrayOfNumQuestions[IndexOfQuestion]][2].equals("+");
     }
 
     public static int GetCountCurrentUserAnswers() {
@@ -74,7 +74,7 @@ class Questions {
         ArrayOfQuestions[indexOfAddedQuestion] = arrayFromString;
     }
 
-    static void shuffleArray(String[][] ar) {
+    static void shuffleDoubleArrayOfString(String[][] ar) {
         Random rnd = new Random();
         for (int i = ar.length - 1; i > 0; i--) {
             int index = rnd.nextInt(i + 1);
@@ -85,8 +85,23 @@ class Questions {
         }
     }
 
+    static void shuffleIntArray(int[] ar) {
+        Random rnd = new Random();
+        for (int i = ar.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            int a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
+    }
 
-    public static void fillArraOfNumQuestions() {
-        
+    public static void fillArrayOfNumQuestions(int lengthOfArray) {
+
+        ArrayOfNumQuestions = new int[lengthOfArray];
+        for (int countOfArray = 0; countOfArray < ArrayOfQuestions.length; countOfArray++) {
+            ArrayOfNumQuestions[countOfArray] = countOfArray + 1;
+        }
+        shuffleIntArray(ArrayOfNumQuestions);
     }
 }
