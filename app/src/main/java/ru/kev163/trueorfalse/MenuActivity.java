@@ -23,6 +23,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
     private Intent activityMainActivity;
     private SharedPreferences mySharedPreferences;
+    private int[] ArrayOfUserAnswerFromSetting;
 
 
     @Override
@@ -45,6 +46,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         buttonExit.setOnClickListener(this);
 
         mySharedPreferences = getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE);
+//        ArrayOfUserAnswerFromSetting = loadSettings();
+
 
         Questions.countOfQuestion = 0;
         Questions.indexOfQuestion = 0;
@@ -67,16 +70,18 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 startActivity(activityMainActivity);
                 break;
             case R.id.buttonResume:
-                loadSettings();
+                ArrayOfUserAnswerFromSetting = loadSettings();
+                if (ArrayOfUserAnswerFromSetting.length > 0) {
+                    System.arraycopy(ArrayOfUserAnswerFromSetting, 0, Questions.ArrayOfNumQuestions, 0, ArrayOfUserAnswerFromSetting.length);
+                }
+                finish();
+                startActivity(activityMainActivity);
                 break;
             case R.id.buttonExit:
                 finish();
                 System.exit(0);
                 break;
         }
-
-
-
     }
 
     private void readFileQuestions(Context context, Integer resourceID) {
@@ -101,13 +106,24 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    public void loadSettings()
+    private int[] loadSettings()
     {
-        Set<String> ret = mySharedPreferences.getStringSet("preferencesTrueOrFalse", new HashSet<String>());
-//        for(String r : ret) {
-//           // Log.i("Share", "Имя кота: " + r);
+        Set<String> arrayFromSettingString = mySharedPreferences.getStringSet(MainActivity.APP_PREFERENCES, new HashSet<String>());
 
-        Toast.makeText(getApplicationContext(), Integer.toString(ret.size()), Toast.LENGTH_SHORT).show();
+        if (arrayFromSettingString.isEmpty()){
+            return new int[0];
+        }else{
+            String stringOfArray = arrayFromSettingString.toString();
+            stringOfArray = stringOfArray.substring(1, stringOfArray.length() - 1);
+            stringOfArray = stringOfArray.replaceAll(" ", "");
+            String[] arrayOfString = stringOfArray.split(",");
+            int[] arrayOfResult = new int[arrayFromSettingString.size()];
+            for(int count = 0; count < arrayOfString.length; count++){
+                arrayOfResult[count] = Integer.parseInt(arrayOfString[count]);
+            }
+            return arrayOfResult;
         }
+        //Toast.makeText(getApplicationContext(), Integer.toString(ret.size()), Toast.LENGTH_SHORT).show();
+    }
 
 }

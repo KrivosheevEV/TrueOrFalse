@@ -136,7 +136,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         e.putStringSet(APP_PREFERENCES, preferencesNumOfQuestions);
         e.apply();
 
-        Toast.makeText(getApplicationContext(), Integer.toString(preferencesNumOfQuestions.size()), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), Integer.toString(preferencesNumOfQuestions.size()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
