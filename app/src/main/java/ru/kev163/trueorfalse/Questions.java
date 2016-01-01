@@ -4,7 +4,7 @@ import java.util.Random;
 
 class Questions {
 
-    static String[][] ArrayOfQuestions;
+    public static String[][] ArrayOfQuestions;
     static boolean[] ArrayOfUserAnswer;
     static int[] ArrayOfNumQuestions;
     static int indexOfQuestion, countOfQuestion;

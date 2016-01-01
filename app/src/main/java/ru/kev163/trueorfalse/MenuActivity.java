@@ -22,9 +22,8 @@ import java.util.Set;
 public class MenuActivity extends Activity implements View.OnClickListener {
 
     private Intent activityMainActivity;
-    private SharedPreferences mySharedPreferences;
-    private int[] ArrayOfUserAnswerFromSetting;
-
+    private SharedPreferences settingArrayOfNumQuestions, settingsIndexOfLastQuiestions;
+    public static Set<String> preferencesNumOfQuestions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +44,11 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         buttonResume.setOnClickListener(this);
         buttonExit.setOnClickListener(this);
 
-        mySharedPreferences = getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE);
-//        ArrayOfUserAnswerFromSetting = loadSettings();
-
-
-        Questions.countOfQuestion = 0;
-        Questions.indexOfQuestion = 0;
-        if (Questions.ArrayOfUserAnswer != null){
-            Arrays.fill(Questions.ArrayOfUserAnswer, false);
-        }
+        createArrayForSaveSettings();
+        settingArrayOfNumQuestions = getSharedPreferences(MainActivity.ARRAY_OF_NUM_QUESTIONS, Context.MODE_PRIVATE);
+        settingsIndexOfLastQuiestions = getSharedPreferences(MainActivity.INDEX_OF_LAST_QUESTIONS, Context.MODE_PRIVATE);
 
         readFileQuestions(this, R.raw.filequestions);
-
-
         Questions.fillArrayOfNumQuestions(Questions.ArrayOfQuestions.length);
     }
 
@@ -66,14 +57,12 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
         switch(v.getId()) {
             case R.id.buttonStart:
+                resetSettings();
                 finish();
                 startActivity(activityMainActivity);
                 break;
             case R.id.buttonResume:
-                ArrayOfUserAnswerFromSetting = loadSettings();
-                if (ArrayOfUserAnswerFromSetting.length > 0) {
-                    System.arraycopy(ArrayOfUserAnswerFromSetting, 0, Questions.ArrayOfNumQuestions, 0, ArrayOfUserAnswerFromSetting.length);
-                }
+                loadSettings();
                 finish();
                 startActivity(activityMainActivity);
                 break;
@@ -106,24 +95,43 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private int[] loadSettings()
+    private void loadSettings()
     {
-        Set<String> arrayFromSettingString = mySharedPreferences.getStringSet(MainActivity.APP_PREFERENCES, new HashSet<String>());
+        Set<String> arrayFromSettingString = settingArrayOfNumQuestions.getStringSet(MainActivity.ARRAY_OF_NUM_QUESTIONS, new HashSet<String>());
 
-        if (arrayFromSettingString.isEmpty()){
-            return new int[0];
-        }else{
-            String stringOfArray = arrayFromSettingString.toString();
-            stringOfArray = stringOfArray.substring(1, stringOfArray.length() - 1);
-            stringOfArray = stringOfArray.replaceAll(" ", "");
-            String[] arrayOfString = stringOfArray.split(",");
-            int[] arrayOfResult = new int[arrayFromSettingString.size()];
-            for(int count = 0; count < arrayOfString.length; count++){
-                arrayOfResult[count] = Integer.parseInt(arrayOfString[count]);
+        if (!arrayFromSettingString.isEmpty()) {
+            String[] middleArray = {};
+            middleArray = arrayFromSettingString.toArray(new String[arrayFromSettingString.size()]);
+
+            int[] arrayOfResult = new int[middleArray.length];
+            for (int count = 0; count < middleArray.length; count++) {
+                arrayOfResult[count] = Integer.parseInt(middleArray[count]);
             }
-            return arrayOfResult;
+
+            if (arrayOfResult.length > 0) {
+                System.arraycopy(arrayOfResult, 0, Questions.ArrayOfNumQuestions, 0, arrayOfResult.length);
+            }
+
+            Questions.indexOfQuestion = settingsIndexOfLastQuiestions.getInt(MainActivity.INDEX_OF_LAST_QUESTIONS, 0);
+
+        }else{
+            resetSettings();
         }
         //Toast.makeText(getApplicationContext(), Integer.toString(ret.size()), Toast.LENGTH_SHORT).show();
     }
 
+    private void resetSettings(){
+
+        Questions.countOfQuestion = 0;
+        Questions.indexOfQuestion = 0;
+        if (Questions.ArrayOfUserAnswer != null){
+            Arrays.fill(Questions.ArrayOfUserAnswer, false);
+        }
+    }
+
+    private void createArrayForSaveSettings(){
+
+        preferencesNumOfQuestions = new HashSet<>();
+
+    }
 }

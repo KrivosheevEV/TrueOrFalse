@@ -28,8 +28,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     //private Button buttonTrue, buttonFalse;
     //private TextView answerBar_Current, answerBar_NotCurrent, questionBar_Quantity, questionBar_Count;
     private static long back_pressed;
-    private SharedPreferences mySharedPreferences;
-    public static final String APP_PREFERENCES = "settingsTrueOrFalse";
+    private SharedPreferences settingArrayOfNumQuestions, settinsIndexOfLastQuiestions;
+    public static final String ARRAY_OF_NUM_QUESTIONS = "settingsTrueOrFalse";
+    public static final String INDEX_OF_LAST_QUESTIONS = "indexOfLastQuestions";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -50,7 +51,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         activityFinishActivity = new Intent(this, FinishActivity.class);
 
 //        activityMenu = new Intent(this, MenuActivity.class);
-        mySharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        settingArrayOfNumQuestions = getSharedPreferences(ARRAY_OF_NUM_QUESTIONS, Context.MODE_PRIVATE);
+        settinsIndexOfLastQuiestions = getSharedPreferences(INDEX_OF_LAST_QUESTIONS, Context.MODE_PRIVATE);
 
         Button buttonTrue = (Button) findViewById(R.id.buttonTrue);
         Button buttonFalse = (Button) findViewById(R.id.buttonFalse);
@@ -127,14 +129,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     public void saveSettings(){
 
-        Set<String> preferencesNumOfQuestions = new HashSet<>();
+//        Set<String> preferencesNumOfQuestions = new HashSet<>();
         for (int countOfArray = 0; countOfArray < Questions.ArrayOfNumQuestions.length; countOfArray++) {
-            preferencesNumOfQuestions.add(Integer.toString(Questions.ArrayOfNumQuestions[countOfArray]));
+            MenuActivity.preferencesNumOfQuestions.add(Integer.toString(Questions.ArrayOfNumQuestions[countOfArray]));
         }
 
-        SharedPreferences.Editor e = mySharedPreferences.edit();
-        e.putStringSet(APP_PREFERENCES, preferencesNumOfQuestions);
-        e.apply();
+        SharedPreferences.Editor e1 = settingArrayOfNumQuestions.edit();
+        e1.putStringSet(ARRAY_OF_NUM_QUESTIONS, MenuActivity.preferencesNumOfQuestions);
+        e1.apply();
+
+        SharedPreferences.Editor e2 = settinsIndexOfLastQuiestions.edit();
+        e2.putInt(INDEX_OF_LAST_QUESTIONS, Questions.indexOfQuestion);
+        e2.apply();
 
         //Toast.makeText(getApplicationContext(), Integer.toString(preferencesNumOfQuestions.size()), Toast.LENGTH_SHORT).show();
     }
