@@ -133,16 +133,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     public void saveSettings(){
 
-//        Set<String> preferencesNumOfQuestions = new HashSet<>();
+        int indexForSettingArrayes = Questions.indexOfQuestion;
+
         for (int countOfArray = 0; countOfArray < Questions.ArrayOfNumQuestions.length; countOfArray++) {
-            MenuActivity.preferencesNumOfQuestions.add(Integer.toString(Questions.ArrayOfNumQuestions[countOfArray]));
+            MenuActivity.preferencesNumOfQuestions.add(Integer.toString(Questions.ArrayOfNumQuestions[indexForSettingArrayes]));
         }
 
-        for (int countOfArray = 0; countOfArray < Questions.ArrayOfUserAnswer.length; countOfArray++) {
-//            if (Questions.ArrayOfUserAnswer[countOfArray] == null) {
-                MenuActivity.preferencesUserAnswers.add(Boolean.toString(Questions.ArrayOfUserAnswer[countOfArray]));
-//            }
-        }
+//        for (int countOfArray = 0; countOfArray < Questions.ArrayOfUserAnswer.length; countOfArray++) {
+            String stringForAdding = Integer.toString(indexForSettingArrayes) + "_" + Boolean.toString(Questions.ArrayOfUserAnswer[indexForSettingArrayes]);
+            MenuActivity.preferencesUserAnswers.add(stringForAdding);
+//        }
 
         SharedPreferences.Editor e1 = settingsArrayOfNumQuestions.edit();
         e1.putStringSet(ARRAY_OF_NUM_QUESTIONS, MenuActivity.preferencesNumOfQuestions);

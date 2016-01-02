@@ -16,7 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.HashSet;
+//import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class MenuActivity extends Activity implements View.OnClickListener {
@@ -99,8 +100,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
     private void loadSettings()
     {
-        Set<String> array1FromSettingString = settingsArrayOfNumQuestions.getStringSet(MainActivity.ARRAY_OF_NUM_QUESTIONS, new HashSet<String>());
-        Set<String> array2FromSettingString = settingsArrayOfUserAnswers.getStringSet(MainActivity.ARRAY_OF_USER_ANSWERS, new HashSet<String>());
+        Set<String> array1FromSettingString = settingsArrayOfNumQuestions.getStringSet(MainActivity.ARRAY_OF_NUM_QUESTIONS, new LinkedHashSet<String>());
+        Set<String> array2FromSettingString = settingsArrayOfUserAnswers.getStringSet(MainActivity.ARRAY_OF_USER_ANSWERS, new LinkedHashSet<String>());
 
         if (!array1FromSettingString.isEmpty() || !array2FromSettingString.isEmpty()) {
             String[] middleArray = {};
@@ -114,13 +115,16 @@ public class MenuActivity extends Activity implements View.OnClickListener {
             String[] middleArray2 = {};
             middleArray2 = array2FromSettingString.toArray(new String[array2FromSettingString.size()]);
 
-            Boolean[] arrayOfResult2 = new Boolean[middleArray2.length];
+            if (Questions.ArrayOfUserAnswer == null) Questions.ArrayOfUserAnswer = new boolean[Questions.ArrayOfQuestions.length];
             for (int count = 0; count < middleArray2.length; count++) {
-                arrayOfResult2[count] = Boolean.parseBoolean(middleArray2[count]);
+                String stringForArray = middleArray2[count].substring(middleArray2[count].indexOf("_") + 1);
+                Questions.ArrayOfUserAnswer[count] = Boolean.parseBoolean(stringForArray);
             }
 
             if (arrayOfResult1.length > 0) System.arraycopy(arrayOfResult1, 0, Questions.ArrayOfNumQuestions, 0, arrayOfResult1.length);
-            if (arrayOfResult2.length > 0) System.arraycopy(arrayOfResult2, 0, Questions.ArrayOfUserAnswer, 0, arrayOfResult2.length);
+
+//            if (Questions.ArrayOfUserAnswer == null) Questions.ArrayOfUserAnswer = new boolean[Questions.ArrayOfQuestions.length];
+//            if (arrayOfResult2.length > 0) System.arraycopy(arrayOfResult2, 0, Questions.ArrayOfUserAnswer, 0, arrayOfResult2.length);
 
             Questions.indexOfQuestion = settingsIndexOfLastQuiestions.getInt(MainActivity.INDEX_OF_LAST_QUESTIONS, 0);
             Questions.countOfQuestion = settingsCountOfLastQuestions.getInt(MainActivity.COUNT_OF_LAST_QUESTIONS, 0);
@@ -142,8 +146,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
     private void createArraysForSaveSettings(){
 
-        preferencesNumOfQuestions = new HashSet<>();
-        preferencesUserAnswers = new HashSet<>();
+        preferencesNumOfQuestions = new LinkedHashSet<>();
+        preferencesUserAnswers = new LinkedHashSet<>();
 
     }
 }
