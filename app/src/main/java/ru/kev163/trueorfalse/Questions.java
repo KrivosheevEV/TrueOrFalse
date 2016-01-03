@@ -7,23 +7,23 @@ class Questions {
     public static String[][] ArrayOfQuestions;
     static boolean[] ArrayOfUserAnswer;
     static int[] ArrayOfNumQuestions;
-    static int indexOfQuestion, countOfQuestion;
+    static int indexOfQuestion;//, countOfQuestion;
 
-    public static String GetQuestionTextByIndex(int IndexOfQuestion) {
+    public static String GetQuestionTextByIndex(int IndexOfQuestion1) {
 
-        if (ArrayOfQuestions == null || indexOfQuestion > ArrayOfQuestions.length - 1){return "";}
-        return ArrayOfQuestions[ArrayOfNumQuestions[IndexOfQuestion]][0];
+        if (ArrayOfQuestions == null || IndexOfQuestion1 > ArrayOfQuestions.length - 1){return "";}
+        return ArrayOfQuestions[ArrayOfNumQuestions[IndexOfQuestion1]][0];
     }
-    public static String GetAnswerTextByIndex(int IndexOfQuestion) {
+    public static String GetAnswerTextByIndex(int IndexOfQuestion2) {
 
-        if (ArrayOfQuestions == null || indexOfQuestion > ArrayOfQuestions.length - 1){return "";}
-        return ArrayOfQuestions[ArrayOfNumQuestions[IndexOfQuestion]][1];
+        if (ArrayOfQuestions == null || IndexOfQuestion2 > ArrayOfQuestions.length - 1){return "";}
+        return ArrayOfQuestions[ArrayOfNumQuestions[IndexOfQuestion2]][1];
     }
 
-    public static Boolean GetCurrentAnswerByIndex(int IndexOfQuestion) {
+    public static Boolean GetCurrentAnswerByIndex(int IndexOfQuestion3) {
 
-        if (ArrayOfQuestions == null || indexOfQuestion > ArrayOfQuestions.length - 1){return false;}
-        return ArrayOfQuestions[ArrayOfNumQuestions[IndexOfQuestion]][2].equals("+");
+        if (ArrayOfQuestions == null || IndexOfQuestion3 > ArrayOfQuestions.length - 1){return false;}
+        return ArrayOfQuestions[ArrayOfNumQuestions[IndexOfQuestion3]][2].equals("+");
     }
 
     public static int GetCountCurrentUserAnswers() {
@@ -34,8 +34,8 @@ class Questions {
             return countOfCurrentUserAnswers;
         }
 
-        for (int countAnswers = 0; countAnswers < ArrayOfUserAnswer.length; countAnswers++) {
-            if (ArrayOfUserAnswer[countAnswers]) {
+        for (int countAnswers = 0; countAnswers < Questions.indexOfQuestion; countAnswers++) {
+            if (ArrayOfUserAnswer[countAnswers] == GetCurrentAnswerByIndex(countAnswers)) {
                 countOfCurrentUserAnswers++;
             }
         }
@@ -44,7 +44,7 @@ class Questions {
 
     public static void SetUserAnswer(int indexOfUserAnswer, boolean userAnswer){
 
-        if (ArrayOfUserAnswer == null || indexOfQuestion > ArrayOfQuestions.length){
+        if (ArrayOfUserAnswer == null || indexOfUserAnswer > ArrayOfQuestions.length){
             ArrayOfUserAnswer = new boolean[ArrayOfQuestions.length];
         }
 
@@ -100,7 +100,7 @@ class Questions {
 
         ArrayOfNumQuestions = new int[lengthOfArray];
         for (int countOfArray = 0; countOfArray < ArrayOfQuestions.length; countOfArray++) {
-            ArrayOfNumQuestions[countOfArray] = countOfArray + 1;
+            ArrayOfNumQuestions[countOfArray] = countOfArray;
         }
         shuffleIntArray(ArrayOfNumQuestions);
     }
