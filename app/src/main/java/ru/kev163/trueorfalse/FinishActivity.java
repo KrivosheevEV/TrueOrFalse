@@ -29,15 +29,13 @@ public class FinishActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int countOfQuestion_, countOfQuestion, countCurrentUserAnswers, countNotCurrentUserAnswers, ratioOfAnswers;
+        int countCurrentUserAnswers, countNotCurrentUserAnswers, ratioOfAnswers;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_finish);
-
-        //activityFinishActivity = new Intent(this, FinishActivity.class);
 
         Button buttonExit_Result = (Button) findViewById(R.id.buttonExit_Result);
         buttonExit_Result.setOnClickListener(this);
@@ -47,27 +45,24 @@ public class FinishActivity extends Activity implements View.OnClickListener {
         TextView textView_Result_NotCurrentAnswers_Result = (TextView) findViewById(R.id.textView_Result_NotCurrentAnswers_Result);
         TextView textView_Result_RatioAnswers_Result = (TextView) findViewById(R.id.textView_Result_RatioAnswers_Result);
 
-        countOfQuestion_ = Questions.countOfQuestion;
-        if (countOfQuestion_ > 1) {
-            countOfQuestion = countOfQuestion_ - 1;
+        if (Questions.indexOfQuestion > 0) {
             countCurrentUserAnswers = Questions.GetCountCurrentUserAnswers();
-            countNotCurrentUserAnswers = countOfQuestion - countCurrentUserAnswers;
-            ratioOfAnswers = (countCurrentUserAnswers * 100) / countOfQuestion;
+            countNotCurrentUserAnswers = Questions.indexOfQuestion - countCurrentUserAnswers;
+            ratioOfAnswers = (countCurrentUserAnswers * 100) / Questions.indexOfQuestion;
         } else {
-            countOfQuestion = 0;
             countCurrentUserAnswers = 0;
             countNotCurrentUserAnswers = 0;
             ratioOfAnswers = 0;
         }
 
-        textView_Result_CountOfQuestionsResult.setText(Integer.toString(countOfQuestion));
+        textView_Result_CountOfQuestionsResult.setText(Integer.toString(Questions.indexOfQuestion));
         textView_Result_CurrentAnswers_Result.setText(Integer.toString(countCurrentUserAnswers));
         textView_Result_NotCurrentAnswers_Result.setText(Integer.toString(countNotCurrentUserAnswers));
         textView_Result_RatioAnswers_Result.setText(Integer.toString(ratioOfAnswers) + "%");
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        //client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -105,18 +100,18 @@ public class FinishActivity extends Activity implements View.OnClickListener {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Finish Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://ru.kev163.trueorfalse/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
+//        client.connect();
+//        Action viewAction = Action.newAction(
+//                Action.TYPE_VIEW, // TODO: choose an action type.
+//                "Finish Page", // TODO: Define a title for the content shown.
+//                // TODO: If you have web page content that matches this app activity's content,
+//                // make sure this auto-generated web page URL is correct.
+//                // Otherwise, set the URL to null.
+//                Uri.parse("http://host/path"),
+//                // TODO: Make sure this auto-generated app deep link URI is correct.
+//                Uri.parse("android-app://ru.kev163.trueorfalse/http/host/path")
+//        );
+//        AppIndex.AppIndexApi.start(client, viewAction);
     }
 
     @Override
@@ -125,17 +120,17 @@ public class FinishActivity extends Activity implements View.OnClickListener {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Finish Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://ru.kev163.trueorfalse/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
+//        Action viewAction = Action.newAction(
+//                Action.TYPE_VIEW, // TODO: choose an action type.
+//                "Finish Page", // TODO: Define a title for the content shown.
+//                // TODO: If you have web page content that matches this app activity's content,
+//                // make sure this auto-generated web page URL is correct.
+//                // Otherwise, set the URL to null.
+//                Uri.parse("http://host/path"),
+//                // TODO: Make sure this auto-generated app deep link URI is correct.
+//                Uri.parse("android-app://ru.kev163.trueorfalse/http/host/path")
+//        );
+//        AppIndex.AppIndexApi.end(client, viewAction);
+//        client.disconnect();
     }
 }

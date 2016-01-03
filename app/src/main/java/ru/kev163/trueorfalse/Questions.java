@@ -7,7 +7,7 @@ class Questions {
     public static String[][] ArrayOfQuestions;
     static boolean[] ArrayOfUserAnswer;
     static int[] ArrayOfNumQuestions;
-    static int indexOfQuestion, countOfQuestion;
+    static int indexOfQuestion;//, countOfQuestion;
 
     public static String GetQuestionTextByIndex(int IndexOfQuestion) {
 
@@ -34,8 +34,8 @@ class Questions {
             return countOfCurrentUserAnswers;
         }
 
-        for (int countAnswers = 0; countAnswers < ArrayOfUserAnswer.length; countAnswers++) {
-            if (ArrayOfUserAnswer[countAnswers]) {
+        for (int countAnswers = 0; countAnswers < Questions.indexOfQuestion; countAnswers++) {
+            if (ArrayOfUserAnswer[countAnswers] == GetCurrentAnswerByIndex(countAnswers)) {
                 countOfCurrentUserAnswers++;
             }
         }
@@ -100,7 +100,7 @@ class Questions {
 
         ArrayOfNumQuestions = new int[lengthOfArray];
         for (int countOfArray = 0; countOfArray < ArrayOfQuestions.length; countOfArray++) {
-            ArrayOfNumQuestions[countOfArray] = countOfArray + 1;
+            ArrayOfNumQuestions[countOfArray] = countOfArray;
         }
         shuffleIntArray(ArrayOfNumQuestions);
     }

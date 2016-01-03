@@ -23,8 +23,15 @@ import java.util.Set;
 public class MenuActivity extends Activity implements View.OnClickListener {
 
     private Intent activityMainActivity;
-    private SharedPreferences settingsArrayOfNumQuestions, settingsIndexOfLastQuiestions, settingsCountOfLastQuestions, settingsArrayOfUserAnswers;
-    public static Set<String> preferencesNumOfQuestions, preferencesUserAnswers;
+    public static SharedPreferences settingsOfApp;
+    public static final String SETTINGS_OF_APP = "settingsOfApp";
+    public static final String STRING_OF_NUM_QUESTIONS = "settingsStringNumOfQuestions";
+    public static final String INDEX_OF_LAST_QUESTIONS = "settingsIntIndexOfLastQuestions";
+    public static final String STRING_OF_USER_ANSWERS = "settingsStringOfUserAnswers";
+//    public SharedPreferences settingsArrayOfNumQuestions;
+//    public SharedPreferences settingsIndexOfLastQuiestions;
+//    public SharedPreferences settingsArrayOfUserAnswers;
+//    public static LinkedHashSet<String> preferencesNumOfQuestions, preferencesUserAnswers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +53,13 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         buttonExit.setOnClickListener(this);
 
         createArraysForSaveSettings();
-        settingsArrayOfNumQuestions = getSharedPreferences(MainActivity.ARRAY_OF_NUM_QUESTIONS, Context.MODE_PRIVATE);
-        settingsIndexOfLastQuiestions = getSharedPreferences(MainActivity.INDEX_OF_LAST_QUESTIONS, Context.MODE_PRIVATE);
-        settingsCountOfLastQuestions = getSharedPreferences(MainActivity.COUNT_OF_LAST_QUESTIONS, Context.MODE_PRIVATE);
-        settingsArrayOfUserAnswers = getSharedPreferences(MainActivity.ARRAY_OF_USER_ANSWERS, Context.MODE_PRIVATE);
+        settingsOfApp = getSharedPreferences(SETTINGS_OF_APP, Context.MODE_PRIVATE);
+//        settingsArrayOfNumQuestions = getSharedPreferences(MainActivity.ARRAY_OF_NUM_QUESTIONS, Context.MODE_PRIVATE);
+//        settingsIndexOfLastQuiestions = getSharedPreferences(MainActivity.INDEX_OF_LAST_QUESTIONS, Context.MODE_PRIVATE);
+//        settingsArrayOfUserAnswers = getSharedPreferences(MainActivity.ARRAY_OF_USER_ANSWERS, Context.MODE_PRIVATE);
 
         readFileQuestions(this, R.raw.filequestions);
-        Questions.fillArrayOfNumQuestions(Questions.ArrayOfQuestions.length);
+//        Questions.fillArrayOfNumQuestions(Questions.ArrayOfQuestions.length);
     }
 
     @Override
@@ -100,34 +107,27 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
     private void loadSettings()
     {
-        Set<String> array1FromSettingString = settingsArrayOfNumQuestions.getStringSet(MainActivity.ARRAY_OF_NUM_QUESTIONS, new LinkedHashSet<String>());
-        Set<String> array2FromSettingString = settingsArrayOfUserAnswers.getStringSet(MainActivity.ARRAY_OF_USER_ANSWERS, new LinkedHashSet<String>());
+        String stringOfNumQuestions = settingsOfApp.getString(STRING_OF_NUM_QUESTIONS, "");
+        String stringOfUserAnswers = settingsOfApp.getString(STRING_OF_USER_ANSWERS, "");
+        int intIndexOfQuestions = settingsOfApp.getInt(INDEX_OF_LAST_QUESTIONS, -1);
 
-        if (!array1FromSettingString.isEmpty() || !array2FromSettingString.isEmpty()) {
-            String[] middleArray = {};
-            middleArray = array1FromSettingString.toArray(new String[array1FromSettingString.size()]);
+        if (!stringOfNumQuestions.isEmpty() || !stringOfUserAnswers.isEmpty() || intIndexOfQuestions == -1) {
 
-            int[] arrayOfResult1 = new int[middleArray.length];
+            String[] middleArray = stringOfNumQuestions.split(",");
+
+            if (Questions.ArrayOfNumQuestions == null) Questions.ArrayOfNumQuestions = new int[Questions.ArrayOfQuestions.length];
             for (int count = 0; count < middleArray.length; count++) {
-                arrayOfResult1[count] = Integer.parseInt(middleArray[count]);
+                Questions.ArrayOfNumQuestions[count] = Integer.parseInt(middleArray[count]);
             }
 
-            String[] middleArray2 = {};
-            middleArray2 = array2FromSettingString.toArray(new String[array2FromSettingString.size()]);
+            String[] middleArray2 = stringOfUserAnswers.split(",");
 
             if (Questions.ArrayOfUserAnswer == null) Questions.ArrayOfUserAnswer = new boolean[Questions.ArrayOfQuestions.length];
             for (int count = 0; count < middleArray2.length; count++) {
-                String stringForArray = middleArray2[count].substring(middleArray2[count].indexOf("_") + 1);
-                Questions.ArrayOfUserAnswer[count] = Boolean.parseBoolean(stringForArray);
+                Questions.ArrayOfUserAnswer[count] = Boolean.parseBoolean(middleArray2[count]);
             }
 
-            if (arrayOfResult1.length > 0) System.arraycopy(arrayOfResult1, 0, Questions.ArrayOfNumQuestions, 0, arrayOfResult1.length);
-
-//            if (Questions.ArrayOfUserAnswer == null) Questions.ArrayOfUserAnswer = new boolean[Questions.ArrayOfQuestions.length];
-//            if (arrayOfResult2.length > 0) System.arraycopy(arrayOfResult2, 0, Questions.ArrayOfUserAnswer, 0, arrayOfResult2.length);
-
-            Questions.indexOfQuestion = settingsIndexOfLastQuiestions.getInt(MainActivity.INDEX_OF_LAST_QUESTIONS, 0);
-            Questions.countOfQuestion = settingsCountOfLastQuestions.getInt(MainActivity.COUNT_OF_LAST_QUESTIONS, 0);
+            Questions.indexOfQuestion = intIndexOfQuestions;
 
         }else{
             resetSettings();
@@ -137,17 +137,21 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
     private void resetSettings(){
 
-        Questions.countOfQuestion = 0;
+        //Questions.countOfQuestion = 0;
         Questions.indexOfQuestion = 0;
         if (Questions.ArrayOfUserAnswer != null){
             Arrays.fill(Questions.ArrayOfUserAnswer, false);
         }
+        if (Questions.ArrayOfNumQuestions != null){
+            Arrays.fill(Questions.ArrayOfNumQuestions, 0);
+        }
+        Questions.fillArrayOfNumQuestions(Questions.ArrayOfQuestions.length);
     }
 
     private void createArraysForSaveSettings(){
 
-        preferencesNumOfQuestions = new LinkedHashSet<>();
-        preferencesUserAnswers = new LinkedHashSet<>();
+//        preferencesNumOfQuestions = new LinkedHashSet<>();
+//        preferencesUserAnswers = new LinkedHashSet<>();
 
     }
 }
