@@ -12,9 +12,9 @@ android {
         applicationId "ru.kev163.trueorfalse"
         minSdkVersion 14
         targetSdkVersion 23
-        versionName '1.1.10'
+        versionName '1.1.12'
         signingConfig signingConfigs.config
-        versionCode 10
+        versionCode 12
         multiDexEnabled true
     }
     buildTypes {
@@ -33,4 +33,8 @@ dependencies {
     androidTestCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    //compile files('libs/applovin-6.1.5.jar')
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
 }

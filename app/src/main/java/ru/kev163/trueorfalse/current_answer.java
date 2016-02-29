@@ -2,7 +2,6 @@ package ru.kev163.trueorfalse;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 public class current_answer extends Activity implements View.OnClickListener {
@@ -62,7 +59,7 @@ public class current_answer extends Activity implements View.OnClickListener {
     public void onClick(View v) {
 
         Questions.indexOfQuestion++;
-        startActivity(activityMainActivity);
+        //startActivity(activityMainActivity);
         finish();
     }
 
@@ -70,7 +67,7 @@ public class current_answer extends Activity implements View.OnClickListener {
     public void onBackPressed() {
 
         Questions.indexOfQuestion++;
-        startActivity(activityMainActivity);
+        //startActivity(activityMainActivity);
         finish();
 
     }

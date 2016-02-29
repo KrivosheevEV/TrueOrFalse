@@ -9,16 +9,16 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
+
+import com.appodeal.ads.Appodeal;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+
 //import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class MenuActivity extends Activity implements View.OnClickListener {
 
@@ -60,6 +60,12 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
         readFileQuestions(this, R.raw.filequestions);
 //        Questions.fillArrayOfNumQuestions(Questions.ArrayOfQuestions.length);
+
+        String appKey = "4104827fe461278c982e57e7438fda0de8618d6c521912db";
+        Appodeal.disableLocationPermissionCheck();
+        Appodeal.initialize(this, appKey, Appodeal.BANNER);
+        Appodeal.initialize(this, appKey, Appodeal.INTERSTITIAL);
+        Appodeal.setTesting(false);
     }
 
     @Override
