@@ -63,8 +63,9 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
         String appKey = "4104827fe461278c982e57e7438fda0de8618d6c521912db";
         Appodeal.disableLocationPermissionCheck();
-        Appodeal.initialize(this, appKey, Appodeal.BANNER);
-        Appodeal.initialize(this, appKey, Appodeal.INTERSTITIAL);
+//        Appodeal.setAutoCache(Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER, false);
+        Appodeal.initialize(this, appKey, Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER);
+//        Appodeal.cache(this, Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER);
         Appodeal.setTesting(false);
     }
 

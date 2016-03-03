@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appodeal.ads.Appodeal;
-import com.appodeal.ads.InterstitialCallbacks;
+import com.appodeal.ads.NonSkippableVideoCallbacks;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -74,8 +74,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
+//        String appKey = "4104827fe461278c982e57e7438fda0de8618d6c521912db";
+//        Appodeal.disableLocationPermissionCheck();
+//        Appodeal.setAutoCache(Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER, false);
+//        Appodeal.initialize(this, appKey, Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER);
+//        Appodeal.cache(this, Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER);
+//        Appodeal.setTesting(true);
+
         adBannerIsShowed = false;
-        if (Appodeal.isLoaded(Appodeal.BANNER) & !adBannerIsShowed) {
+        if (Appodeal.isLoaded(Appodeal.BANNER) && !adBannerIsShowed) {
             Appodeal.show(this, Appodeal.BANNER_BOTTOM);
             adBannerIsShowed = true;
         }
@@ -176,7 +183,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 //        Toast.makeText(getApplicationContext(), Boolean.toString(userAnswer), Toast.LENGTH_SHORT).show();
 
-        //finish();
         startActivity(activityCurrentAnswer);
     }
 
@@ -185,7 +191,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onResume();
 
         if (Questions.indexOfQuestion >= Questions.ArrayOfQuestions.length) {
-            //finish();
             startActivity(activityFinishActivity);
         } else {
             SetNewQuestion(Questions.indexOfQuestion);
@@ -206,48 +211,48 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (back_pressed + 2000 > System.currentTimeMillis()) {
 //            startActivity(activityFinishActivity);
 //            finish();
-            Appodeal.show(MainActivity.this, Appodeal.INTERSTITIAL);
+            Appodeal.show(MainActivity.this, Appodeal.NON_SKIPPABLE_VIDEO);
         } else {
             Toast.makeText(getBaseContext(), "Нажмите еще раз для завершения теста", Toast.LENGTH_SHORT).show();
         }
 
         back_pressed = System.currentTimeMillis();
 
-        Appodeal.setInterstitialCallbacks(new InterstitialCallbacks() {
+        Appodeal.setNonSkippableVideoCallbacks(new NonSkippableVideoCallbacks() {
             private Toast mToast;
 
             @Override
-            public void onInterstitialLoaded(boolean isPrecache) {
+            public void onNonSkippableVideoLoaded() {
 //                showToast("onInterstitialLoaded");
             }
 
             @Override
-            public void onInterstitialFailedToLoad() {
+            public void onNonSkippableVideoFailedToLoad() {
 //                showToast("onInterstitialFailedToLoad");
 //                startActivity(new Intent(MainActivity.this, FinishActivity.class));
-                startActivity(activityFinishActivity);
                 finish();
+                startActivity(activityFinishActivity);
             }
 
             @Override
-            public void onInterstitialShown() {
+            public void onNonSkippableVideoShown() {
 //                showToast("onInterstitialShown");
             }
 
             @Override
-            public void onInterstitialClicked() {
+            public void onNonSkippableVideoFinished() {
 //                showToast("onInterstitialClicked");
 //                startActivity(new Intent(MainActivity.this, FinishActivity.class));
-                startActivity(activityFinishActivity);
                 finish();
+                startActivity(activityFinishActivity);
             }
 
             @Override
-            public void onInterstitialClosed() {
+            public void onNonSkippableVideoClosed() {
 //                showToast("onInterstitialClosed");
 //                startActivity(new Intent(MainActivity.this, FinishActivity.class));
-                startActivity(activityFinishActivity);
                 finish();
+                startActivity(activityFinishActivity);
             }
 
             void showToast(final String text) {
