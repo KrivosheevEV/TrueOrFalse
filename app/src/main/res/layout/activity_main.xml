@@ -28,7 +28,7 @@
             android:layout_height="0dp"
             android:weightSum="2"
             android:id="@+id/layoutUpperMenu"
-            android:layout_weight="1.5">
+            android:layout_weight="2.1">
 
             <TextView
                 android:layout_width="match_parent"
@@ -103,12 +103,48 @@
                     android:layout_weight="1" />
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textViewLivesBar"
+                android:id="@+id/textViewLivesBar"
+                android:textColor="@android:color/white" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layoutLivesBar">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/CountCurrentUserLives"
+                    android:id="@+id/textViewLives"
+                    android:background="@color/colorMy1Green"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="5"
+                    android:textIsSelectable="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewAntiLives"
+                    android:background="@color/colorMy1Red"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="0" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5.5"
+            android:layout_weight="5.0"
             android:id="@+id/layoutQuestionText"
             android:gravity="center">
 
@@ -119,7 +155,7 @@
                 android:text="Large Text"
                 android:id="@+id/textViewQuestionText"
                 android:textColor="@android:color/white"
-                android:textSize="25sp"
+                android:textSize="23sp"
                 android:textStyle="normal|bold" />
         </RelativeLayout>
 
@@ -129,7 +165,7 @@
             android:layout_height="0dp"
             android:id="@+id/layoutTrueFalseButton"
             android:baselineAligned="false"
-            android:layout_weight="2.4">
+            android:layout_weight="1.8">
 
             <RelativeLayout
                 android:orientation="horizontal"

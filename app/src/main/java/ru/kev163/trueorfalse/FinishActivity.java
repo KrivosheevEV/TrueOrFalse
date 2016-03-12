@@ -1,7 +1,7 @@
 package ru.kev163.trueorfalse;
 
 import android.app.Activity;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -9,10 +9,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 public class FinishActivity extends Activity implements View.OnClickListener {
 
@@ -44,6 +40,8 @@ public class FinishActivity extends Activity implements View.OnClickListener {
         TextView textView_Result_CurrentAnswers_Result = (TextView) findViewById(R.id.textView_Result_CurrentAnswers_Result);
         TextView textView_Result_NotCurrentAnswers_Result = (TextView) findViewById(R.id.textView_Result_NotCurrentAnswers_Result);
         TextView textView_Result_RatioAnswers_Result = (TextView) findViewById(R.id.textView_Result_RatioAnswers_Result);
+        TextView textView_Result_HeadText = (TextView) findViewById(R.id.textView_Result_HeadText);
+        TextView textView_Result_BodyText = (TextView) findViewById(R.id.textView_Result_BodyText);
 
         if (Questions.indexOfQuestion > 0) {
             countCurrentUserAnswers = Questions.GetCountCurrentUserAnswers();
@@ -55,20 +53,36 @@ public class FinishActivity extends Activity implements View.OnClickListener {
             ratioOfAnswers = 0;
         }
 
+        if (ratioOfAnswers < 10){
+            textView_Result_HeadText.setText(getString(R.string.textView_Result1_HeadText));
+            textView_Result_BodyText.setText(getString(R.string.textView_Result1_BodyText));
+        }else if (ratioOfAnswers >= 10 & ratioOfAnswers < 40){
+            textView_Result_HeadText.setText(getString(R.string.textView_Result2_HeadText));
+            textView_Result_BodyText.setText(getString(R.string.textView_Result2_BodyText));
+        }else if (ratioOfAnswers >= 40 & ratioOfAnswers < 70){
+            textView_Result_HeadText.setText(getString(R.string.textView_Result3_HeadText));
+            textView_Result_BodyText.setText(getString(R.string.textView_Result3_BodyText));
+        }else if (ratioOfAnswers >= 70 & ratioOfAnswers < 90){
+            textView_Result_HeadText.setText(getString(R.string.textView_Result4_HeadText));
+            textView_Result_BodyText.setText(getString(R.string.textView_Result4_BodyText));
+        }else if (ratioOfAnswers >= 90){
+            textView_Result_HeadText.setText(getString(R.string.textView_Result5_HeadText));
+            textView_Result_BodyText.setText(getString(R.string.textView_Result5_BodyText));
+        }
+
         textView_Result_CountOfQuestionsResult.setText(Integer.toString(Questions.indexOfQuestion));
         textView_Result_CurrentAnswers_Result.setText(Integer.toString(countCurrentUserAnswers));
         textView_Result_NotCurrentAnswers_Result.setText(Integer.toString(countNotCurrentUserAnswers));
         textView_Result_RatioAnswers_Result.setText(Integer.toString(ratioOfAnswers) + "%");
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        //client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
+        finish();
+        startActivity(new Intent(this, RateActivity.class));
+        /*switch (v.getId()) {
             case R.id.buttonExit_Result:
                 finish();
                 System.exit(0);
@@ -77,7 +91,7 @@ public class FinishActivity extends Activity implements View.OnClickListener {
                 finish();
                 System.exit(0);
                 break;
-        }
+        }*/
 
     }
 
@@ -86,7 +100,7 @@ public class FinishActivity extends Activity implements View.OnClickListener {
 
         if (back_pressed + 2000 > System.currentTimeMillis()) {
             finish();
-            System.exit(0);
+            startActivity(new Intent(this, RateActivity.class));
         } else {
             Toast.makeText(getBaseContext(), "Нажмите еще раз для выхода", Toast.LENGTH_SHORT).show();
         }

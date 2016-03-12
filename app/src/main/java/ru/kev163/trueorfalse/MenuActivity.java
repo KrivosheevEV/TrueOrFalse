@@ -10,8 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.appodeal.ads.Appodeal;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,10 +26,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     public static final String STRING_OF_NUM_QUESTIONS = "settingsStringNumOfQuestions";
     public static final String INDEX_OF_LAST_QUESTIONS = "settingsIntIndexOfLastQuestions";
     public static final String STRING_OF_USER_ANSWERS = "settingsStringOfUserAnswers";
-//    public SharedPreferences settingsArrayOfNumQuestions;
-//    public SharedPreferences settingsIndexOfLastQuiestions;
-//    public SharedPreferences settingsArrayOfUserAnswers;
-//    public static LinkedHashSet<String> preferencesNumOfQuestions, preferencesUserAnswers;
+    public static final String COUNT_OF_LIVES = "settingsIntCountOfLives";
+    public static final String COUNT_OF_ANTILIVES = "settingsIntCountOfAntiLives";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +48,10 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         buttonResume.setOnClickListener(this);
         buttonExit.setOnClickListener(this);
 
-        createArraysForSaveSettings();
         settingsOfApp = getSharedPreferences(SETTINGS_OF_APP, Context.MODE_PRIVATE);
-//        settingsArrayOfNumQuestions = getSharedPreferences(MainActivity.ARRAY_OF_NUM_QUESTIONS, Context.MODE_PRIVATE);
-//        settingsIndexOfLastQuiestions = getSharedPreferences(MainActivity.INDEX_OF_LAST_QUESTIONS, Context.MODE_PRIVATE);
-//        settingsArrayOfUserAnswers = getSharedPreferences(MainActivity.ARRAY_OF_USER_ANSWERS, Context.MODE_PRIVATE);
 
         readFileQuestions(this, R.raw.filequestions);
-//        Questions.fillArrayOfNumQuestions(Questions.ArrayOfQuestions.length);
 
-        String appKey = "4104827fe461278c982e57e7438fda0de8618d6c521912db";
-        Appodeal.disableLocationPermissionCheck();
-//        Appodeal.setAutoCache(Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER, false);
-        Appodeal.initialize(this, appKey, Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER);
-//        Appodeal.cache(this, Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER);
-        Appodeal.setTesting(false);
     }
 
     @Override
@@ -112,11 +97,13 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void loadSettings()
-    {
+    private void loadSettings() {
+
         String stringOfNumQuestions = settingsOfApp.getString(STRING_OF_NUM_QUESTIONS, "");
         String stringOfUserAnswers = settingsOfApp.getString(STRING_OF_USER_ANSWERS, "");
         int intIndexOfQuestions = settingsOfApp.getInt(INDEX_OF_LAST_QUESTIONS, -1);
+        int intCountOfLives = settingsOfApp.getInt(COUNT_OF_LIVES, 5);
+        int intCountOfAntiLives = settingsOfApp.getInt(COUNT_OF_LIVES, 0);
 
         if (!stringOfNumQuestions.isEmpty() || !stringOfUserAnswers.isEmpty() || intIndexOfQuestions == -1) {
 
@@ -135,6 +122,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
             }
 
             Questions.indexOfQuestion = intIndexOfQuestions;
+            Questions.countOfLives = intCountOfLives;
+            Questions.countOfAntiLives = intCountOfAntiLives;
 
         }else{
             resetSettings();
@@ -144,8 +133,9 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
     private void resetSettings(){
 
-        //Questions.countOfQuestion = 0;
         Questions.indexOfQuestion = 0;
+        Questions.countOfLives = 5;
+        Questions.countOfAntiLives = 0;
         if (Questions.ArrayOfUserAnswer != null){
             Arrays.fill(Questions.ArrayOfUserAnswer, false);
         }
@@ -155,10 +145,4 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         Questions.fillArrayOfNumQuestions(Questions.ArrayOfQuestions.length);
     }
 
-    private void createArraysForSaveSettings(){
-
-//        preferencesNumOfQuestions = new LinkedHashSet<>();
-//        preferencesUserAnswers = new LinkedHashSet<>();
-
-    }
 }

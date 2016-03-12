@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appodeal.ads.Appodeal;
+import com.appodeal.ads.InterstitialCallbacks;
 import com.appodeal.ads.NonSkippableVideoCallbacks;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -22,16 +24,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    private Intent activityCurrentAnswer, activityFinishActivity;
-    //private Button buttonTrue, buttonFalse;
-    //private TextView answerBar_Current, answerBar_NotCurrent, questionBar_Quantity, questionBar_Count;
     private static long back_pressed;
     private SharedPreferences settingsArrayOfNumQuestions, settingsIndexOfLastQuiestions, settingsCountOfLastQuestions, settingsArrayOfUserAnswers;
-    private Boolean adBannerIsShowed;
+    Handler h;
+    Boolean bannerAppodealIsShowed;
 
-//    public static final String ARRAY_OF_NUM_QUESTIONS = "settingsTrueOrFalse";
-//    public static final String INDEX_OF_LAST_QUESTIONS = "settingsIndexOfLastQuestions";
-//    public static final String ARRAY_OF_USER_ANSWERS = "settingsArrayOfUserAnswers";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -48,45 +45,53 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         setContentView(R.layout.activity_main);
 
-        activityCurrentAnswer = new Intent(this, current_answer.class);
-        activityFinishActivity = new Intent(this, FinishActivity.class);
-
-//        activityMenu = new Intent(this, MenuActivity.class);
-//        settingsArrayOfNumQuestions = getSharedPreferences(ARRAY_OF_NUM_QUESTIONS, Context.MODE_PRIVATE);
-//        settingsIndexOfLastQuiestions = getSharedPreferences(INDEX_OF_LAST_QUESTIONS, Context.MODE_PRIVATE);
-//        settingsArrayOfUserAnswers = getSharedPreferences(ARRAY_OF_USER_ANSWERS, Context.MODE_PRIVATE);
-
         Button buttonTrue = (Button) findViewById(R.id.buttonTrue);
         Button buttonFalse = (Button) findViewById(R.id.buttonFalse);
         buttonTrue.setOnClickListener(this);
         buttonFalse.setOnClickListener(this);
 
-        if (Questions.indexOfQuestion >= Questions.ArrayOfQuestions.length) {
-            //finish();
-            startActivity(activityFinishActivity);
+        Questions.isDebuging = true;    // set "false" in release.
+
+        // Реклама.
+        Appodeal.disableLocationPermissionCheck();
+        Appodeal.setTesting(Questions.isDebuging);
+
+        h = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+
+                String appKey = "4104827fe461278c982e57e7438fda0de8618d6c521912db";
+                Appodeal.initialize(MainActivity.this, appKey, Appodeal.NON_SKIPPABLE_VIDEO);
+                Appodeal.initialize(MainActivity.this, appKey, Appodeal.INTERSTITIAL);
+                Appodeal.initialize(MainActivity.this, appKey, Appodeal.BANNER);
+
+            }
+        };
+        h.sendEmptyMessage(0);
+
+        bannerAppodealIsShowed = false;
+        showBannerAppodeal(false);
+        ///
+
+        if (Questions.countOfLives <= 0 || Questions.indexOfQuestion >= Questions.ArrayOfQuestions.length) {
+            finishThisActivity();
         } else {
             SetNewQuestion(Questions.indexOfQuestion);
         }
 
         SetAnswerBar(Questions.indexOfQuestion + 1, Questions.GetCountCurrentUserAnswers());
         SetQuestionBar(Questions.indexOfQuestion + 1, Questions.ArrayOfQuestions.length);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        SetLivesBar(Questions.countOfLives, Questions.countOfAntiLives);
+
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-//        String appKey = "4104827fe461278c982e57e7438fda0de8618d6c521912db";
-//        Appodeal.disableLocationPermissionCheck();
-//        Appodeal.setAutoCache(Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER, false);
-//        Appodeal.initialize(this, appKey, Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER);
-//        Appodeal.cache(this, Appodeal.NON_SKIPPABLE_VIDEO|Appodeal.BANNER);
-//        Appodeal.setTesting(true);
 
-        adBannerIsShowed = false;
-        if (Appodeal.isLoaded(Appodeal.BANNER) && !adBannerIsShowed) {
+    }
+
+    private void showBannerAppodeal(boolean bannerIsShowed) {
+        if (Appodeal.isLoaded(Appodeal.BANNER) & !bannerIsShowed) {
             Appodeal.show(this, Appodeal.BANNER_BOTTOM);
-            adBannerIsShowed = true;
+            bannerAppodealIsShowed = true;
         }
-
     }
 
     private void SetAnswerBar(int countOfQuestion, int countCurrentUserAnswers) {
@@ -132,6 +137,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
         questionBar_Quantity.setText(Integer.toString(quantityQuestions));
     }
 
+    private void SetLivesBar(int givenCountOfLives, int givenCountOfAntiLives) {
+
+        float weightLivesBar = (float) (givenCountOfLives);
+        float weightAntiLivesBar = (float) (givenCountOfAntiLives);
+
+        TextView textViewLives = (TextView) findViewById(R.id.textViewLives);
+        TextView textViewAntiLives = (TextView) findViewById(R.id.textViewAntiLives);
+
+        textViewLives.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightLivesBar));
+        textViewAntiLives.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightAntiLivesBar));
+
+        textViewLives.setText(Integer.toString(givenCountOfLives));
+        //textViewAntiLives.setText(Integer.toString(givenCountOfAntiLives));
+    }
+
     private void SetNewQuestion(int IndexOfNewQuestion) {
 
         String TextOfNewQuestion = Questions.GetQuestionTextByIndex(IndexOfNewQuestion);
@@ -157,6 +177,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         e1.putString(MenuActivity.STRING_OF_NUM_QUESTIONS, stringOfNumQuestions);
         e1.putString(MenuActivity.STRING_OF_USER_ANSWERS, stringOfUserAnswers);
         e1.putInt(MenuActivity.INDEX_OF_LAST_QUESTIONS, Questions.indexOfQuestion);
+        e1.putInt(MenuActivity.COUNT_OF_LIVES, Questions.countOfLives);
+        e1.putInt(MenuActivity.COUNT_OF_ANTILIVES, Questions.countOfAntiLives);
         e1.apply();
 
         //Toast.makeText(getApplicationContext(), Integer.toString(preferencesNumOfQuestions.size()), Toast.LENGTH_SHORT).show();
@@ -179,80 +201,77 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
         }
 
+        showBannerAppodeal(bannerAppodealIsShowed);
+
         Questions.SetUserAnswer(Questions.indexOfQuestion, userAnswer);
 
 //        Toast.makeText(getApplicationContext(), Boolean.toString(userAnswer), Toast.LENGTH_SHORT).show();
 
-        startActivity(activityCurrentAnswer);
+        saveSettings();
+        startActivity(new Intent(this, current_answer.class));
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        if (Questions.indexOfQuestion >= Questions.ArrayOfQuestions.length) {
-            startActivity(activityFinishActivity);
+        if (Questions.indexOfQuestion >= Questions.ArrayOfQuestions.length || Questions.countOfLives <= 0) {
+            finishThisActivity();
         } else {
             SetNewQuestion(Questions.indexOfQuestion);
         }
 
         SetAnswerBar(Questions.indexOfQuestion + 1, Questions.GetCountCurrentUserAnswers());
         SetQuestionBar(Questions.indexOfQuestion + 1, Questions.ArrayOfQuestions.length);
+        SetLivesBar(Questions.countOfLives, Questions.countOfAntiLives);
 
-        if (Appodeal.isLoaded(Appodeal.BANNER) & !adBannerIsShowed) {
-            Appodeal.show(this, Appodeal.BANNER_BOTTOM);
-            adBannerIsShowed = true;
-        }
+        showBannerAppodeal(bannerAppodealIsShowed);
     }
 
-    @Override
-    public void onBackPressed() {
+    private void finishThisActivity() {
 
-        if (back_pressed + 2000 > System.currentTimeMillis()) {
-//            startActivity(activityFinishActivity);
-//            finish();
+        if (Appodeal.isLoaded(Appodeal.NON_SKIPPABLE_VIDEO)) {
             Appodeal.show(MainActivity.this, Appodeal.NON_SKIPPABLE_VIDEO);
-        } else {
-            Toast.makeText(getBaseContext(), "Нажмите еще раз для завершения теста", Toast.LENGTH_SHORT).show();
+        }else if(Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
+            Appodeal.show(MainActivity.this, Appodeal.INTERSTITIAL);
+        }else{
+            finish();
+            startActivity(new Intent(this, FinishActivity.class));
         }
-
-        back_pressed = System.currentTimeMillis();
 
         Appodeal.setNonSkippableVideoCallbacks(new NonSkippableVideoCallbacks() {
             private Toast mToast;
 
             @Override
             public void onNonSkippableVideoLoaded() {
-//                showToast("onInterstitialLoaded");
+                if (Questions.isDebuging) showToast("onNonSkippableLoaded");
             }
 
             @Override
             public void onNonSkippableVideoFailedToLoad() {
-//                showToast("onInterstitialFailedToLoad");
-//                startActivity(new Intent(MainActivity.this, FinishActivity.class));
-                finish();
-                startActivity(activityFinishActivity);
+                if (Questions.isDebuging) showToast("onNonSkippableFailedToLoad");
+//                finish();
+//                startActivity(new Intent(AfterTestActivity.this, FinishActivity.class));
             }
 
             @Override
             public void onNonSkippableVideoShown() {
-//                showToast("onInterstitialShown");
+                if (Questions.isDebuging) showToast("onNonSkippableShown");
+//                finish();
+//                startActivity(new Intent(AfterTestActivity.this, FinishActivity.class));
             }
 
             @Override
             public void onNonSkippableVideoFinished() {
-//                showToast("onInterstitialClicked");
-//                startActivity(new Intent(MainActivity.this, FinishActivity.class));
-                finish();
-                startActivity(activityFinishActivity);
+                if (Questions.isDebuging) showToast("onNonSkippableClicked");
+
             }
 
             @Override
             public void onNonSkippableVideoClosed() {
-//                showToast("onInterstitialClosed");
-//                startActivity(new Intent(MainActivity.this, FinishActivity.class));
+                if (Questions.isDebuging) showToast("onNonSkippableClosed");
                 finish();
-                startActivity(activityFinishActivity);
+                startActivity(new Intent(MainActivity.this, FinishActivity.class));
             }
 
             void showToast(final String text) {
@@ -264,6 +283,65 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 mToast.show();
             }
         });
+
+        Appodeal.setInterstitialCallbacks(new InterstitialCallbacks() {
+            private Toast mToast;
+
+            @Override
+            public void onInterstitialLoaded(boolean isPrecache)  {
+                if (Questions.isDebuging) showToast("onInterstitialLoaded");
+            }
+
+            @Override
+            public void onInterstitialFailedToLoad() {
+                if (Questions.isDebuging) showToast("onInterstitialFailedToLoad");
+
+            }
+
+            @Override
+            public void onInterstitialShown() {
+                if (Questions.isDebuging) showToast("onInterstitialShown");
+//                finish();
+//                startActivity(new Intent(AfterTestActivity.this, FinishActivity.class));
+            }
+
+            @Override
+            public void onInterstitialClicked() {
+                if (Questions.isDebuging) showToast("onInterstitialClicked");
+                //startActivity(new Intent(AfterTestActivity.this, FinishActivity.class));
+            }
+
+            @Override
+            public void onInterstitialClosed() {
+                if (Questions.isDebuging) showToast("onInterstitialClosed");
+                finish();
+                startActivity(new Intent(MainActivity.this, FinishActivity.class));
+            }
+
+            void showToast(final String text) {
+                if (mToast == null) {
+                    mToast = Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT);
+                }
+                mToast.setText(text);
+                mToast.setDuration(Toast.LENGTH_SHORT);
+                mToast.show();
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
+            saveSettings();
+            finishThisActivity();
+        } else {
+            Toast.makeText(getBaseContext(), "Нажмите еще раз для завершения теста", Toast.LENGTH_SHORT).show();
+        }
+
+        back_pressed = System.currentTimeMillis();
+
     }
 
     @Override

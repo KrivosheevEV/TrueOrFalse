@@ -7,7 +7,8 @@ class Questions {
     public static String[][] ArrayOfQuestions;
     static boolean[] ArrayOfUserAnswer;
     static int[] ArrayOfNumQuestions;
-    static int indexOfQuestion;//, countOfQuestion;
+    static int indexOfQuestion, countOfLives, countOfAntiLives;
+    static boolean isDebuging;
 
     public static String GetQuestionTextByIndex(int IndexOfQuestion1) {
 
@@ -50,6 +51,12 @@ class Questions {
 
         ArrayOfUserAnswer[indexOfUserAnswer] = userAnswer;
 
+        if (userAnswer != GetCurrentAnswerByIndex(indexOfUserAnswer)){
+            countOfLives--;
+            countOfAntiLives++;
+        }
+
+        if ((indexOfUserAnswer + 1) % 5 == 0) countOfLives = countOfLives + 1;
     }
 
     public static void insertQuestionsInArray(String lineFromFile, int indexOfAddedQuestion){
