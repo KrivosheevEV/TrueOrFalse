@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         buttonTrue.setOnClickListener(this);
         buttonFalse.setOnClickListener(this);
 
-        Questions.isDebuging = true;    // set "false" in release.
+        Questions.isDebuging = false;    // set "false" in release.
 
         // Реклама.
         Appodeal.disableLocationPermissionCheck();
