@@ -12,9 +12,9 @@ android {
         applicationId "ru.kev163.trueorfalse"
         minSdkVersion 14
         targetSdkVersion 23
-        versionName '1.1.16'
+        versionName '1.1.17'
         signingConfig signingConfigs.config
-        versionCode 10116
+        versionCode 10117
         multiDexEnabled true
     }
     buildTypes {
@@ -26,15 +26,20 @@ android {
     }
     productFlavors {
     }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile 'com.google.android.gms:play-services-appindexing:9.0.2'
     //compile files('libs/applovin-6.1.5.jar')
-    compile 'com.google.android.gms:play-services-ads:8.4.0'
-    compile 'com.google.android.gms:play-services-auth:8.4.0'
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'
+    compile 'com.google.android.gms:play-services-ads:9.0.2'
+    compile 'com.google.android.gms:play-services-auth:9.0.2'
+    compile 'com.google.android.gms:play-services-gcm:9.0.2'
 }
