@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Правда или Ложь?</string>
+    <string name="app_name">True or False?</string>
     <string name="fileForQuestions">filequestions</string>
     <string name="buttonFalseText">Ложь</string>
     <string name="buttonTrueText">Правда</string>
-    <string name="CountCurrentUserAnswers">0</string>
-    <string name="CountUserNotCurrentAnswers">0</string>
+    <string name="CountCurrentUserAnswers" translatable="false">0</string>
+    <string name="CountUserNotCurrentAnswers" translatable="false">0</string>
     <string name="hintOfCurrentAnswer">..коснитесь экрана для возврата..</string>
     <string name="buttonStart_Text">Начать</string>
     <string name="buttonSetting_Text">Настройки</string>
@@ -19,8 +19,8 @@
     <string name="textView_Result_NotCurrentAnswers_Result">70</string>
     <string name="textView_RatioAnswers_Result">30%</string>
     <string name="buttonResume_Text">Продолжить</string>
-    <string name="CountCurrentUserAntiLives">0</string>
-    <string name="CountCurrentUserLives">5</string>
+    <string name="CountCurrentUserAntiLives" translatable="false">0</string>
+    <string name="CountCurrentUserLives" translatable="false">5</string>
     <string name="textViewLivesBar">Количество возможных ошибок:</string>
     <string name="RateForApp">Если вам понравилось это приложение, то проголосуйте за него или напишите комментарий:</string>
     <string name="textView_Result1_HeadText">Плохо</string>
@@ -33,4 +33,35 @@
     <string name="textView_Result4_HeadText">Замечательно</string>
     <string name="textView_Result5_BodyText">Полученный результат отражает большой труд в накоплении знаний.</string>
     <string name="textView_Result5_HeadText">Великолепно</string>
+    <string name="_q01">The caterpillar muscle more than the man.</string>
+    <string name="_q02">Non-stop flight of a dove may exceed 40 000 kilometres.</string>
+    <string name="_q03">Rabbits run faster than hare.</string>
+    <string name="_q04">Purebred pigeon was bought for $ 200,000.</string>
+    <string name="_q05">In Australia, over-population of rabbits — a national disaster.</string>
+    <string name="_q06">Unripe tomatoes are poisonous.</string>
+    <string name="_q07">Pink flamingos have this color since birth.</string>
+    <string name="_q08">Camels tolerate dehydration due to the particular structure of red blood cells.</string>
+    <string name="_q09">The temperature of the blood of certain fishes may be below zero degrees Celsius.</string>
+    <string name="_q10">The fastest mammal on Earth - hare.</string>
+    <string name="_q11">Cow per day produce more saliva than milk.</string>
+    <string name="_q12">Lemon can not weigh more than 1 kilogram.</string>
+    <string name="_q13">A cow can distinguish bitter milk.</string>
+    <string name="_q14">Mosquitoes, when choosing who to attack, guided only by the body temperature.</string>
+    <string name="_q15">Cows on the Earth more than people.</string>
+    <string name="_q16">In the Russian cartoon Mowgli Bagheera is female.</string>
+    <string name="_q17">The first Bicycle lane appeared in Russia over 100 years ago.</string>
+    <string name="_q18">Strings for violins were originally made of animals.</string>
+    <string name="_q19">Dolphins call each other by individual names.</string>
+    <string name="_q20">The oldest rose Bush about 1000 years.</string>
+    <string name="_q21">The early carrots were purple.</string>
+    <string name="_q22">There are fish that can live on land.</string>
+    <string name="_q23">Penguins can only live in cold climates.</string>
+    <string name="_q24">In Thailand, all cats are Siamese.</string>
+    <string name="_q25">Koalas almost do not drink the water.</string>
+    <string name="_q26">In Russian and English languages is the word for the opposite direction of the knee.</string>
+    <string name="_q27">The flint inside the lighter\'s not real.</string>
+    <string name="_q28">There is a country where postage is free.</string>
+    <string name="_q29">Males mosquitoes do not feed on blood.</string>
+    <string name="_q30">The most expensive caviar is sturgeon black.</string>
+    <string name="_q31" translatable="false">2</string>
 </resources>
