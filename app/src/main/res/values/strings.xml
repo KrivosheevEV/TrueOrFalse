@@ -14,10 +14,10 @@
     <string name="textView_Result_CurrentAnswers_Text">Количество правильных ответов:</string>
     <string name="textView_Result_NotCurrentAnswers_Text">Количество неправильных ответов:</string>
     <string name="textView_RatioAnswers_Text">Коэффициент правильных ответов:</string>
-    <string name="textView_Result_CountOfQuestionsResult">100</string>
-    <string name="textView_Result_CurrentAnswers_Result">30</string>
-    <string name="textView_Result_NotCurrentAnswers_Result">70</string>
-    <string name="textView_RatioAnswers_Result">30%</string>
+    <string name="textView_Result_CountOfQuestionsResult" translatable="false">100</string>
+    <string name="textView_Result_CurrentAnswers_Result" translatable="false">30</string>
+    <string name="textView_Result_NotCurrentAnswers_Result" translatable="false">70</string>
+    <string name="textView_RatioAnswers_Result" translatable="false">30%</string>
     <string name="buttonResume_Text">Продолжить</string>
     <string name="CountCurrentUserAntiLives" translatable="false">0</string>
     <string name="CountCurrentUserLives" translatable="false">5</string>
@@ -283,4 +283,75 @@
     <string name="_q248">Dragonfly lives 4 months.</string>
     <string name="_q249">Sharks never get sick.</string>
     <string name="_q250">All the planets in our solar system orbit in the same direction.</string>
+    <string name="_q251">Medusa older dinosaurs.</string>
+    <string name="_q252">Strawberries and strawberry - berries.</string>
+    <string name="_q253">The Vatican has not yet recognized that the earth revolves around the sun.</string>
+    <string name="_q254">An octopus has eight legs.</string>
+    <string name="_q255">Ozone protects the earth from solar radiation, deadly poisonous.</string>
+    <string name="_q256">All astronauts snore while sleeping in space.</string>
+    <string name="_q257">Bird \"canary\" called in honor of the islands, where they found her.</string>
+    <string name="_q258">Frankenstein - not a monster and his creator.</string>
+    <string name="_q259">Sharks eat each other.</string>
+    <string name="_q260">London - the rainiest city in Europe.</string>
+    <string name="_q261">During the filming of the movie \"Spider-Man\" suit of the protagonist was stolen.</string>
+    <string name="_q262">Centipede has forty feet.</string>
+    <string name="_q263">The Statue of Liberty stands in New York.</string>
+    <string name="_q264">In Australia, all are required to participate in the elections.</string>
+    <string name="_q265">Chocolate is safe for animals.</string>
+    <string name="_q266">The whip can not be faster than the speed of sound wave.</string>
+    <string name="_q267">Bees kill more people than snakes.</string>
+    <string name="_q268">Dolphins address each other by name.</string>
+    <string name="_q269">In some countries, there is an inheritance tax.</string>
+    <string name="_q270">Mass of blue whale language is much more than an elephant weight.</string>
+    <string name="_q271">Sahara Desert - the driest place on Earth.</string>
+    <string name="_q272">In case of danger, ostriches bury their heads in the sand.</string>
+    <string name="_q273">Street nowhere in the world do not intersect with itself.</string>
+    <string name="_q274">The chameleon changes color only for danger.</string>
+    <string name="_q275">Mammals can not give birth to more than 10 cubs per birth.</string>
+    <string name="_q276">All kinds of cat - loners.</string>
+    <string name="_q277">The largest number - a trillion trillion.</string>
+    <string name="_q278">A compass needle points to the north pole.</string>
+    <string name="_q279">None of the animals can not drink sea water.</string>
+    <string name="_q280">Chocolate is harmful to teeth.</string>
+    <string name="_q281">Russian writer Korney Chukovsky in reality was called differently.</string>
+    <string name="_q282">Speaking in a dream - an anomaly.</string>
+    <string name="_q283">There is a country named after the chemical element.</string>
+    <string name="_q284">Brad Pitt banned from visiting Russia.</string>
+    <string name="_q285">The ancient Greeks saw the sky blue or green.</string>
+    <string name="_q286">Shrimp, when sailing, the quietest of marine life.</string>
+    <string name="_q287">There is a country to change their flag more than twenty times.</string>
+    <string name="_q288">The world\'s oceans more than gold in the earth.</string>
+    <string name="_q289">The oldest tree about 10,000 years.</string>
+    <string name="_q290">The temperature of the ice is always the same - 0°C.</string>
+    <string name="_q291">The only embalmed man of our time - Lenin.</string>
+    <string name="_q292">The diameter of the table tennis ball was always the same.</string>
+    <string name="_q293">All cats always fall down the legs.</string>
+    <string name="_q294">\"Santa Barbara\" - the longest-running series.</string>
+    <string name="_q295">The speed of light is constant.</string>
+    <string name="_q296">Diamonds do not burn.</string>
+    <string name="_q297">Scorpio is not susceptible to alcohol.</string>
+    <string name="_q298">In space there is no gravity.</string>
+    <string name="_q299">In ancient languages do not have words to describe the blue.</string>
+    <string name="_q300">Different parts of the language are responsible for different taste sensations.</string>
+    <string name="_a001">In humans, several times smaller muscle than the caterpillar. Thus, in the butterfly caterpillars muscles around 4000, whereas a person of less than 1000.</string>
+    <string name="_a002">Record great distance that flew racing pigeon during his competition in 1990-1997 is 41,050 km and belongs to the Belle Brazil - blue pigeon, the owner of which is the Robert Koch (South Africa).</string>
+    <string name="_a003">Rabbits develop a running speed of 56 km/h, hares are far ahead of them in speed - 72km/h.</string>
+    <string name="_a004">The most expensive pigeon in the world is very thoroughbred racing pigeon, sold at auction in Belgium a wealthy Chinese buyer, which is laid out for him 200,000 dollars.</string>
+    <string name="_a005">To combat the rabbits in the country has been specially imported myxomatosis virus, resulting in was destroyed by an eighth of Australian mammals and a huge number of unique plants. Surviving rabbits acquired immunity and continue to multiply.</string>
+    <string name="_a006">Unripe tomatoes contain a toxic substance - solanine. It is also produced in ripe tomatoes are stored for a long time in the light. If you eat 2 kg of green tomatoes, it is possible to get poisoned. If tomatoes have opened today, they would have been banned for use in the EU as dangerous for the health.</string>
+    <string name="_a007">The pink color of flamingos given to them from birth, and is derived from the edible small red crustaceans or algae, which contain the carotenoid.</string>
+    <string name="_a008">Eritrotsinty have an oval shape, and retain after dehydration to flow, whereas human erythrocytes collide with each other. Camel - the only mammal that has oval red blood cells.</string>
+    <string name="_a009">Blood temperature at the Antarctic fish can reach -1.7 °C.</string>
+    <string name="_a010">Cheetahs owns the high speed of movement, reached by terrestrial beings. It can reach speeds of 96 km/h.</string>
+    <string name="_a011">At night the cows emit between 90 and 190 liters of saliva necessary for chewing.</string>
+    <string name="_a012">The heaviest lemon weighed 5 kilograms and has been grown in Israel.</string>
+    <string name="_a013">Taste milk and its nutritional value is largely dependent on what the animal ate. If cow\'s milk a bitter taste, so she ate wormwood or other bitter herbs.</string>
+    <string name="_a014">When choosing victim female mosquito guided by the carbon dioxide exhaled by the person on the thermal radiation, as well as the smell of lactic acid contained in sweat.</string>
+    <string name="_a015">By their number of cows in second place after a man among mammals - a total of almost grazes the Earth 1.5 billion cows.. In Australia cows 40% more than people.</string>
+    <string name="_a016">In the original work of Rudyard Kipling\'s \"Jungle Book\" Bagheera - a male character. Russian translators changed Bagira floor because the word \"Panther\" - feminine.</string>
+    <string name="_a017">114 years ago, the first bike path appeared in Moscow. I pulled it along this avenue and the Leningrad Muscovites actively used at the turn of the century.</string>
+    <string name="_a018">Before 1750 the best material for making violin strings were sheep intestine. And the first to come up with their use for this purpose, were Italians.</string>
+    <string name="_a019">And each dolphin gets its name at birth. This fact is proved by scientists, writing a whistle signal, indicating the name, which responded to the same dolphin.</string>
+    <string name="_a020">The world\'s oldest rose is in Germany - the 1000-year-old bush near the Cathedral of Hildesheim, which has almost reached the roof of the building.</string>
+    <string name="_a021">1</string>
 </resources>
