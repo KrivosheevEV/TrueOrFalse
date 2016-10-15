@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Правда или Ложь?</string>
-    <string name="fileForQuestions">filequestions</string>
     <string name="buttonFalseText">Ложь</string>
     <string name="buttonTrueText">Правда</string>
     <string name="hintOfCurrentAnswer">..коснитесь экрана для возврата..</string>

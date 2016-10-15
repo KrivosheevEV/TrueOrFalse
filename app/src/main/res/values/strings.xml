@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">True or False?</string>
-    <string name="fileForQuestions">filequestions</string>
-    <string name="buttonFalseText">Ложь</string>
-    <string name="buttonTrueText">Правда</string>
+    <string name="fileForQuestions" translatable="false">filequestions</string>
+    <string name="buttonFalseText">False</string>
+    <string name="buttonTrueText">True</string>
     <string name="CountCurrentUserAnswers" translatable="false">0</string>
     <string name="CountUserNotCurrentAnswers" translatable="false">0</string>
     <string name="hintOfCurrentAnswer">..коснитесь экрана для возврата..</string>
-    <string name="buttonStart_Text">Начать</string>
-    <string name="buttonSetting_Text">Настройки</string>
-    <string name="buttonExit_Text">Выход</string>
+    <string name="buttonStart_Text">Start</string>
+    <string name="buttonSetting_Text">Settings</string>
+    <string name="buttonExit_Text">Exit</string>
     <string name="textViewQuestionsBar">Общее количество вопросов:</string>
     <string name="textViewAnswerBar">Правильные ответы:</string>
     <string name="textView_Result_CurrentAnswers_Text">Количество правильных ответов:</string>
