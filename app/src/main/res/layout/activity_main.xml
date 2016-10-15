@@ -26,21 +26,23 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:weightSum="2"
+            android:weightSum="3.0"
             android:id="@+id/layoutUpperMenu"
-            android:layout_weight="2.1">
+            android:layout_weight="2.3">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="@string/textViewQuestionsBar"
                 android:id="@+id/textViewQuestionsBar"
+                android:layout_weight="0.5"
                 android:textColor="@android:color/white" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
                 android:id="@+id/layoutQuestionBar" >
 
                 <TextView
@@ -69,15 +71,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="@string/textViewAnswerBar"
                 android:id="@+id/textViewAnswerBar"
+                android:layout_weight="0.5"
                 android:textColor="@android:color/white" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
                 android:id="@+id/layoutAnswerBar">
 
                 <TextView
@@ -105,19 +109,32 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="@string/textViewLivesBar"
                 android:id="@+id/textViewLivesBar"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:layout_weight="0.5" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:weightSum="1.0"
+                android:layout_weight="0.5"
                 android:id="@+id/layoutLivesBar">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewAntiLives"
+                    android:background="@color/colorMy1Red"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="0.45" />
+
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/CountCurrentUserLives"
                     android:id="@+id/textViewLives"
@@ -125,18 +142,23 @@
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:layout_weight="5"
+                    android:layout_weight="0.45"
                     android:textIsSelectable="false" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textViewAntiLives"
-                    android:background="@color/colorMy1Red"
+                    android:text="+1"
+                    android:id="@+id/textViewAddLives"
+                    android:background="@color/colorMy1Green"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:layout_weight="0" />
+                    android:layout_weight="0.1"
+                    android:textIsSelectable="false"
+                    android:paddingLeft="5dp"
+                    android:layout_marginLeft="10dp" />
+
             </LinearLayout>
 
         </LinearLayout>

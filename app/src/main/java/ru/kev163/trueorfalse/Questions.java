@@ -1,6 +1,11 @@
 package ru.kev163.trueorfalse;
 
+import android.app.Activity;
+import android.content.Context;
+
 import java.util.Random;
+
+import static ru.kev163.trueorfalse.R.string._a001;
 
 class Questions {
 
@@ -59,28 +64,6 @@ class Questions {
         if ((indexOfUserAnswer + 1) % 5 == 0) countOfLives = countOfLives + 1;
     }
 
-    public static void insertQuestionsInArray(String lineFromFile, int indexOfAddedQuestion){
-
-        String arrayFromString[] = lineFromFile.split("//");
-
-        if (ArrayOfQuestions == null){
-            ArrayOfQuestions = new String[1][3];
-        }
-
-        if (ArrayOfQuestions.length <= indexOfAddedQuestion){
-            try {
-                String[][] copyArrayOfQuestion = ArrayOfQuestions;
-                ArrayOfQuestions = new String[indexOfAddedQuestion + 1][3];
-                System.arraycopy(copyArrayOfQuestion, 0, ArrayOfQuestions, 0, copyArrayOfQuestion.length);
-
-            }catch (Exception e){
-                return;
-            }
-        }
-
-        ArrayOfQuestions[indexOfAddedQuestion] = arrayFromString;
-    }
-
     static void shuffleDoubleArrayOfString(String[][] ar) {
         Random rnd = new Random();
         for (int i = ar.length - 1; i > 0; i--) {
@@ -111,4 +94,6 @@ class Questions {
         }
         shuffleIntArray(ArrayOfNumQuestions);
     }
+
+
 }
