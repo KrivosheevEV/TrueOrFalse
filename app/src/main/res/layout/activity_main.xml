@@ -131,7 +131,7 @@
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:layout_weight="0.45" />
+                    android:layout_weight="0.44" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -142,7 +142,18 @@
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:layout_weight="0.45"
+                    android:layout_weight="0.44"
+                    android:textIsSelectable="false" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:id="@+id/textViewAddLivesSpace"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="0.02"
                     android:textIsSelectable="false" />
 
                 <TextView
@@ -155,9 +166,12 @@
                     android:textStyle="bold"
                     android:gravity="center"
                     android:layout_weight="0.1"
-                    android:textIsSelectable="false"
-                    android:paddingLeft="5dp"
-                    android:layout_marginLeft="10dp" />
+                    android:textIsSelectable="false"/>
+                    <!--android:paddingLeft="5dp"-->
+                    <!--android:layout_marginLeft="10dp"-->
+
+                <!--android:background="@color/colorMy1Green"-->
+
 
             </LinearLayout>
 

@@ -5,15 +5,15 @@
     <string name="buttonTrueText">True</string>
     <string name="CountCurrentUserAnswers" translatable="false">0</string>
     <string name="CountUserNotCurrentAnswers" translatable="false">0</string>
-    <string name="hintOfCurrentAnswer">..коснитесь экрана для возврата..</string>
+    <string name="hintOfCurrentAnswer">..tap the screen to return..</string>
     <string name="buttonStart_Text">Start</string>
     <string name="buttonSetting_Text">Settings</string>
     <string name="buttonExit_Text">Exit</string>
-    <string name="textViewQuestionsBar">Общее количество вопросов:</string>
-    <string name="textViewAnswerBar">Правильные ответы:</string>
-    <string name="textView_Result_CurrentAnswers_Text">Количество правильных ответов:</string>
-    <string name="textView_Result_NotCurrentAnswers_Text">Количество неправильных ответов:</string>
-    <string name="textView_RatioAnswers_Text">Коэффициент правильных ответов:</string>
+    <string name="textViewQuestionsBar">The total number of questions:</string>
+    <string name="textViewAnswerBar">The correct answers:</string>
+    <string name="textView_Result_CurrentAnswers_Text">The number of correct answers:</string>
+    <string name="textView_Result_NotCurrentAnswers_Text">The number of wrong answers:</string>
+    <string name="textView_RatioAnswers_Text">The ratio of correct answers:</string>
     <string name="textView_Result_CountOfQuestionsResult" translatable="false">100</string>
     <string name="textView_Result_CurrentAnswers_Result" translatable="false">30</string>
     <string name="textView_Result_NotCurrentAnswers_Result" translatable="false">70</string>
@@ -21,18 +21,18 @@
     <string name="buttonResume_Text">Продолжить</string>
     <string name="CountCurrentUserAntiLives" translatable="false">0</string>
     <string name="CountCurrentUserLives" translatable="false">5</string>
-    <string name="textViewLivesBar">Количество возможных ошибок:</string>
-    <string name="RateForApp">Если вам понравилось это приложение, то проголосуйте за него или напишите комментарий:</string>
-    <string name="textView_Result1_HeadText">Плохо</string>
-    <string name="textView_Result1_BodyText">Вы показали очень плохой результат. Повышайте свою эрудицию.</string>
-    <string name="textView_Result2_BodyText">  У вас посредственный результат. Необходимо всесторонне развиваться.</string>
-    <string name="textView_Result2_HeadText">Удовлетворительно</string>
-    <string name="textView_Result3_BodyText">Показатель хорошей образованности. Но не стоит расслабляться.</string>
-    <string name="textView_Result3_HeadText">Хорошо</string>
-    <string name="textView_Result4_BodyText">Ваши знания помогают вам в жизни. Не многие достигли такого результата.</string>
-    <string name="textView_Result4_HeadText">Замечательно</string>
-    <string name="textView_Result5_BodyText">Полученный результат отражает большой труд в накоплении знаний.</string>
-    <string name="textView_Result5_HeadText">Великолепно</string>
+    <string name="textViewLivesBar">The number of possible errors:</string>
+    <string name="RateForApp">If you like this app, vote for it or write a review:</string>
+    <string name="textView_Result1_HeadText">Bad</string>
+    <string name="textView_Result1_BodyText">"  You showed a very bad result. Increase your erudition."</string>
+    <string name="textView_Result2_BodyText">"  You have a mediocre result. It is necessary to develop comprehensively."</string>
+    <string name="textView_Result2_HeadText">Satisfactory</string>
+    <string name="textView_Result3_BodyText">An indicator of good education. But don\'t relax.</string>
+    <string name="textView_Result3_HeadText">Well</string>
+    <string name="textView_Result4_BodyText">Your knowledge help you in life. Not many have achieved such a result.</string>
+    <string name="textView_Result4_HeadText">Great</string>
+    <string name="textView_Result5_BodyText">The result reflects a lot of work in the accumulation of knowledge.</string>
+    <string name="textView_Result5_HeadText">Great</string>
     <string name="_q001">The caterpillar muscle more than the man.</string>
     <string name="_q002">Non-stop flight of a dove may exceed 40 000 kilometres.</string>
     <string name="_q003">Rabbits run faster than hare.</string>

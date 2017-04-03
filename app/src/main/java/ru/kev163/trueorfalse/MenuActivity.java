@@ -53,7 +53,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
         settingsOfApp = getSharedPreferences(SETTINGS_OF_APP, Context.MODE_PRIVATE);
 
-//        readFileQuestions(this, R.raw.filequestions);
+//        readFileQuestions(this, R.raw._filequestions);
         insertQuestionsInArray();
 
     }
