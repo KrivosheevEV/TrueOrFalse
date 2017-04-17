@@ -1,6 +1,8 @@
 package ru.kev163.trueorfalse;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.appodeal.ads.Appodeal;
 import com.appodeal.ads.InterstitialCallbacks;
 import com.appodeal.ads.NonSkippableVideoCallbacks;
+import com.appodeal.ads.RewardedVideoCallbacks;
 //import com.google.android.gms.appindexing.Action;
 //import com.google.android.gms.appindexing.AppIndex;
 //import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,6 +52,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button buttonFalse = (Button) findViewById(R.id.buttonFalse);
         buttonTrue.setOnClickListener(this);
         buttonFalse.setOnClickListener(this);
+        TextView tvAddLives = (TextView) findViewById(R.id.textViewAddLives);
+        tvAddLives.setOnClickListener(this);
 
         Questions.isDebuging = true;    // set "false" in release.
 
@@ -60,9 +65,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void handleMessage(android.os.Message msg) {
 
                 String appKey = "4104827fe461278c982e57e7438fda0de8618d6c521912db";
-                Appodeal.initialize(MainActivity.this, appKey, Appodeal.NON_SKIPPABLE_VIDEO);
-                Appodeal.initialize(MainActivity.this, appKey, Appodeal.INTERSTITIAL);
-                Appodeal.initialize(MainActivity.this, appKey, Appodeal.BANNER);
+                Appodeal.initialize(MainActivity.this, appKey, Appodeal.REWARDED_VIDEO | Appodeal.NON_SKIPPABLE_VIDEO | Appodeal.INTERSTITIAL | Appodeal.BANNER);
+//                Appodeal.setAutoCache(Appodeal.REWARDED_VIDEO, false);
+//                Appodeal.setAutoCache(Appodeal.INTERSTITIAL, false);
+//                Appodeal.setAutoCache(Appodeal.BANNER, false);
+//                Appodeal.cache(MainActivity.this, Appodeal.REWARDED_VIDEO);
+//                Appodeal.cache(MainActivity.this, Appodeal.INTERSTITIAL);
+//                Appodeal.cache(MainActivity.this, Appodeal.BANNER);
 
             }
         };
@@ -84,6 +93,31 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 //        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
+        Appodeal.setRewardedVideoCallbacks(new RewardedVideoCallbacks() {
+            @Override
+            public void onRewardedVideoLoaded() {
+                showToast("onRewardedVideoLoaded");
+            }
+            @Override
+            public void onRewardedVideoFailedToLoad() {
+                showToast("onRewardedVideoFailedToLoad");
+            }
+            @Override
+            public void onRewardedVideoShown() {
+                showToast("onRewardedVideoShown");
+            }
+            @Override
+            public void onRewardedVideoFinished(int amount, String name) {
+                showToast(String.format("onRewardedVideoFinished. Reward: %d %s", amount, name));
+            }
+            @Override
+            public void onRewardedVideoClosed(boolean finished) {
+                showToast(String.format("onRewardedVideoClosed,  finished: %s", finished));
+            }
+        });
+
+
+
     }
 
     private void showBannerAppodeal(boolean bannerIsShowed) {
@@ -91,6 +125,51 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Appodeal.show(this, Appodeal.BANNER_BOTTOM);
             bannerAppodealIsShowed = true;
         }
+    }
+
+    private void showRewardedVideoAppodeal(){
+
+//        AlertDialog.Builder ad;
+//
+//        String title = "Выбор есть всегда";
+//        String message = "Выбери пищу";
+//        String button1String = "Вкусная пища";
+//        String button2String = "Здоровая пища";
+//
+//        ad = new AlertDialog.Builder(MainActivity.this);
+//        ad.setTitle(title);  // заголовок
+//        ad.setMessage(message); // сообщение
+//        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int arg1) {
+//                Toast.makeText(MainActivity.this, "Вы сделали правильный выбор",
+//                        Toast.LENGTH_LONG).show();
+//            }
+//        });
+//        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int arg1) {
+//                Toast.makeText(MainActivity.this, "Возможно вы правы", Toast.LENGTH_LONG)
+//                        .show();
+//            }
+//        });
+//        ad.setCancelable(true);
+//        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//            public void onCancel(DialogInterface dialog) {
+//                Toast.makeText(MainActivity.this, "Вы ничего не выбрали",
+//                        Toast.LENGTH_LONG).show();
+//            }
+//        });
+
+        if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
+            Appodeal.show(MainActivity.this, Appodeal.REWARDED_VIDEO);
+        } else if (Appodeal.isLoaded(Appodeal.NON_SKIPPABLE_VIDEO)) {
+            Appodeal.show(MainActivity.this, Appodeal.NON_SKIPPABLE_VIDEO);
+        } else if (Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
+            Appodeal.show(MainActivity.this, Appodeal.INTERSTITIAL);
+        } else {
+            showToast("Для загрузки короткого клипа необходимо подключение к Интернет.");
+        }
+
+
     }
 
     private void SetAnswerBar(int countOfQuestion, int countCurrentUserAnswers) {
@@ -138,18 +217,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void SetLivesBar(int givenCountOfLives, int givenCountOfAntiLives) {
 
-        float weightLivesBar = (float) (givenCountOfLives);
-        float weightAntiLivesBar = (float) (givenCountOfAntiLives);
-        float weightSpace = (float) (2);
-        float weightAddLives = (float) (2);
+//        float weightLivesBar = (float) (givenCountOfLives);
+//        float weightAntiLivesBar = (float) (givenCountOfAntiLives+1);
+        float weightAntiLivesBar = (float) (givenCountOfAntiLives*100.00/(givenCountOfLives+givenCountOfAntiLives)*0.9/100);
+        float weightLivesBar = (float) (givenCountOfLives*100.00/(givenCountOfLives+givenCountOfAntiLives)*0.9/100);
+        float weightSpace = (float) (0.005);
+        float weightAddLives = (float) (0.095);
 
-        TextView textViewLives = (TextView) findViewById(R.id.textViewLives);
         TextView textViewAntiLives = (TextView) findViewById(R.id.textViewAntiLives);
+        TextView textViewLives = (TextView) findViewById(R.id.textViewLives);
         TextView textViewSpace = (TextView) findViewById(R.id.textViewAddLivesSpace);
         TextView textViewAddLives = (TextView) findViewById(R.id.textViewAddLives);
 
-        textViewLives.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightLivesBar));
         textViewAntiLives.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightAntiLivesBar));
+        textViewLives.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightLivesBar));
         textViewSpace.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightSpace));
         textViewAddLives.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, weightAddLives));
 
@@ -192,28 +273,32 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        Boolean userAnswer;
+        showBannerAppodeal(bannerAppodealIsShowed);
 
         switch (v.getId()) {
             case R.id.buttonTrue:
-                userAnswer = true;
+                Questions.SetUserAnswer(Questions.indexOfQuestion, true);
+                saveSettings();
+                startActivity(new Intent(this, current_answer.class));
                 break;
             case R.id.buttonFalse:
-                userAnswer = false;
+                Questions.SetUserAnswer(Questions.indexOfQuestion, false);
+                saveSettings();
+                startActivity(new Intent(this, current_answer.class));
                 break;
+            case R.id.textViewAddLives:
+                showRewardedVideoAppodeal();
+                break;
+
             default:
-                userAnswer = false;
                 break;
         }
 
-        showBannerAppodeal(bannerAppodealIsShowed);
 
-        Questions.SetUserAnswer(Questions.indexOfQuestion, userAnswer);
 
 //        Toast.makeText(getApplicationContext(), Boolean.toString(userAnswer), Toast.LENGTH_SHORT).show();
 
-        saveSettings();
-        startActivity(new Intent(this, current_answer.class));
+
     }
 
     @Override
@@ -245,7 +330,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
         Appodeal.setNonSkippableVideoCallbacks(new NonSkippableVideoCallbacks() {
-            private Toast mToast;
 
             @Override
             public void onNonSkippableVideoLoaded() {
@@ -255,15 +339,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onNonSkippableVideoFailedToLoad() {
                 if (Questions.isDebuging) showToast("onNonSkippableFailedToLoad");
-//                finish();
-//                startActivity(new Intent(AfterTestActivity.this, FinishActivity.class));
             }
 
             @Override
             public void onNonSkippableVideoShown() {
                 if (Questions.isDebuging) showToast("onNonSkippableShown");
-//                finish();
-//                startActivity(new Intent(AfterTestActivity.this, FinishActivity.class));
             }
 
             @Override
@@ -278,19 +358,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 finish();
                 startActivity(new Intent(MainActivity.this, FinishActivity.class));
             }
-
-            void showToast(final String text) {
-                if (mToast == null) {
-                    mToast = Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT);
-                }
-                mToast.setText(text);
-                mToast.setDuration(Toast.LENGTH_SHORT);
-                mToast.show();
-            }
         });
 
         Appodeal.setInterstitialCallbacks(new InterstitialCallbacks() {
-            private Toast mToast;
 
             @Override
             public void onInterstitialLoaded(boolean isPrecache)  {
@@ -322,16 +392,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 finish();
                 startActivity(new Intent(MainActivity.this, FinishActivity.class));
             }
-
-            void showToast(final String text) {
-                if (mToast == null) {
-                    mToast = Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT);
-                }
-                mToast.setText(text);
-                mToast.setDuration(Toast.LENGTH_SHORT);
-                mToast.show();
-            }
         });
+
 
     }
 
@@ -394,6 +456,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onDestroy();
 
         saveSettings();
+    }
+
+    private void showToast(final String text) {
+        Toast mToast;        mToast = Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT);
+
+        mToast.setText(text);
+        mToast.setDuration(Toast.LENGTH_LONG);
+        mToast.show();
     }
 
 
