@@ -30,7 +30,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private static long back_pressed;
     private SharedPreferences settingsArrayOfNumQuestions, settingsIndexOfLastQuiestions, settingsCountOfLastQuestions, settingsArrayOfUserAnswers;
     Handler h;
-    Boolean bannerAppodealIsShowed;
+    Boolean bannerAppodealIsShowed, itsAddlives;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         TextView tvAddLives = (TextView) findViewById(R.id.textViewAddLives);
         tvAddLives.setOnClickListener(this);
 
-        Questions.isDebuging = true;    // set "false" in release.
+        Questions.isDebuging = false;    // set "false" in release.
 
         // Реклама.
         Appodeal.disableLocationPermissionCheck();
@@ -65,7 +65,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void handleMessage(android.os.Message msg) {
 
                 String appKey = "4104827fe461278c982e57e7438fda0de8618d6c521912db";
-                Appodeal.initialize(MainActivity.this, appKey, Appodeal.REWARDED_VIDEO | Appodeal.NON_SKIPPABLE_VIDEO | Appodeal.INTERSTITIAL | Appodeal.BANNER);
+                Appodeal.initialize(MainActivity.this, appKey, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL | Appodeal.BANNER);
 //                Appodeal.setAutoCache(Appodeal.REWARDED_VIDEO, false);
 //                Appodeal.setAutoCache(Appodeal.INTERSTITIAL, false);
 //                Appodeal.setAutoCache(Appodeal.BANNER, false);
@@ -79,6 +79,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         bannerAppodealIsShowed = false;
         showBannerAppodeal(false);
+
+        itsAddlives = false;
         ///
 
         if (Questions.countOfLives <= 0 || Questions.indexOfQuestion >= Questions.ArrayOfQuestions.length) {
@@ -96,30 +98,65 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Appodeal.setRewardedVideoCallbacks(new RewardedVideoCallbacks() {
             @Override
             public void onRewardedVideoLoaded() {
-                showToast("onRewardedVideoLoaded");
+                if (Questions.isDebuging) showToast("onRewardedVideoLoaded");
             }
             @Override
             public void onRewardedVideoFailedToLoad() {
-                showToast("onRewardedVideoFailedToLoad");
+                if (Questions.isDebuging) showToast("onRewardedVideoFailedToLoad");
             }
             @Override
             public void onRewardedVideoShown() {
-                showToast("onRewardedVideoShown");
+                if (Questions.isDebuging) showToast("onRewardedVideoShown");
             }
             @Override
             public void onRewardedVideoFinished(int amount, String name) {
-                showToast(String.format("onRewardedVideoFinished. Reward: %d %s", amount, name));
+                if (Questions.isDebuging) showToast(String.format("onRewardedVideoFinished. Reward: %d %s", amount, name));
+                Questions.countOfLives++;
             }
             @Override
             public void onRewardedVideoClosed(boolean finished) {
-                showToast(String.format("onRewardedVideoClosed,  finished: %s", finished));
+                if (Questions.isDebuging) showToast(String.format("onRewardedVideoClosed,  finished: %s", finished));
             }
         });
 
+        Appodeal.setInterstitialCallbacks(new InterstitialCallbacks() {
 
+            @Override
+            public void onInterstitialLoaded(boolean isPrecache)  {
+                if (Questions.isDebuging) showToast("onInterstitialLoaded");
+            }
 
+            @Override
+            public void onInterstitialFailedToLoad() {
+                if (Questions.isDebuging) showToast("onInterstitialFailedToLoad");
+
+            }
+
+            @Override
+            public void onInterstitialShown() {
+                if (Questions.isDebuging) showToast("onInterstitialShown");
+            }
+
+            @Override
+            public void onInterstitialClicked() {
+                if (Questions.isDebuging) showToast("onInterstitialClicked");
+            }
+
+            @Override
+            public void onInterstitialClosed() {
+                if (Questions.isDebuging) showToast("onInterstitialClosed");
+                if (itsAddlives) {
+                    Questions.countOfLives++;
+                }else {
+                    finish();
+                    startActivity(new Intent(MainActivity.this, FinishActivity.class));
+                }
+                itsAddlives = false;
+            }
+        });
     }
 
+    // Show banner.
     private void showBannerAppodeal(boolean bannerIsShowed) {
         if (Appodeal.isLoaded(Appodeal.BANNER) & !bannerIsShowed) {
             Appodeal.show(this, Appodeal.BANNER_BOTTOM);
@@ -127,48 +164,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    // Show rewarded video.
     private void showRewardedVideoAppodeal(){
-
-//        AlertDialog.Builder ad;
-//
-//        String title = "Выбор есть всегда";
-//        String message = "Выбери пищу";
-//        String button1String = "Вкусная пища";
-//        String button2String = "Здоровая пища";
-//
-//        ad = new AlertDialog.Builder(MainActivity.this);
-//        ad.setTitle(title);  // заголовок
-//        ad.setMessage(message); // сообщение
-//        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int arg1) {
-//                Toast.makeText(MainActivity.this, "Вы сделали правильный выбор",
-//                        Toast.LENGTH_LONG).show();
-//            }
-//        });
-//        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int arg1) {
-//                Toast.makeText(MainActivity.this, "Возможно вы правы", Toast.LENGTH_LONG)
-//                        .show();
-//            }
-//        });
-//        ad.setCancelable(true);
-//        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
-//            public void onCancel(DialogInterface dialog) {
-//                Toast.makeText(MainActivity.this, "Вы ничего не выбрали",
-//                        Toast.LENGTH_LONG).show();
-//            }
-//        });
 
         if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
             Appodeal.show(MainActivity.this, Appodeal.REWARDED_VIDEO);
-        } else if (Appodeal.isLoaded(Appodeal.NON_SKIPPABLE_VIDEO)) {
-            Appodeal.show(MainActivity.this, Appodeal.NON_SKIPPABLE_VIDEO);
         } else if (Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
             Appodeal.show(MainActivity.this, Appodeal.INTERSTITIAL);
         } else {
             showToast("Для загрузки короткого клипа необходимо подключение к Интернет.");
         }
-
 
     }
 
@@ -287,6 +292,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startActivity(new Intent(this, current_answer.class));
                 break;
             case R.id.textViewAddLives:
+                itsAddlives = true;
                 showRewardedVideoAppodeal();
                 break;
 
@@ -320,8 +326,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void finishThisActivity() {
 
-        if (Appodeal.isLoaded(Appodeal.NON_SKIPPABLE_VIDEO)) {
-            Appodeal.show(MainActivity.this, Appodeal.NON_SKIPPABLE_VIDEO);
+        if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
+            Appodeal.show(MainActivity.this, Appodeal.REWARDED_VIDEO);
         }else if(Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
             Appodeal.show(MainActivity.this, Appodeal.INTERSTITIAL);
         }else{
@@ -329,70 +335,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             startActivity(new Intent(this, FinishActivity.class));
         }
 
-        Appodeal.setNonSkippableVideoCallbacks(new NonSkippableVideoCallbacks() {
-
-            @Override
-            public void onNonSkippableVideoLoaded() {
-                if (Questions.isDebuging) showToast("onNonSkippableLoaded");
-            }
-
-            @Override
-            public void onNonSkippableVideoFailedToLoad() {
-                if (Questions.isDebuging) showToast("onNonSkippableFailedToLoad");
-            }
-
-            @Override
-            public void onNonSkippableVideoShown() {
-                if (Questions.isDebuging) showToast("onNonSkippableShown");
-            }
-
-            @Override
-            public void onNonSkippableVideoFinished() {
-                if (Questions.isDebuging) showToast("onNonSkippableClicked");
-
-            }
-
-            @Override
-            public void onNonSkippableVideoClosed(boolean b) {
-                if (Questions.isDebuging) showToast("onNonSkippableClosed");
-                finish();
-                startActivity(new Intent(MainActivity.this, FinishActivity.class));
-            }
-        });
-
-        Appodeal.setInterstitialCallbacks(new InterstitialCallbacks() {
-
-            @Override
-            public void onInterstitialLoaded(boolean isPrecache)  {
-                if (Questions.isDebuging) showToast("onInterstitialLoaded");
-            }
-
-            @Override
-            public void onInterstitialFailedToLoad() {
-                if (Questions.isDebuging) showToast("onInterstitialFailedToLoad");
-
-            }
-
-            @Override
-            public void onInterstitialShown() {
-                if (Questions.isDebuging) showToast("onInterstitialShown");
-//                finish();
-//                startActivity(new Intent(AfterTestActivity.this, FinishActivity.class));
-            }
-
-            @Override
-            public void onInterstitialClicked() {
-                if (Questions.isDebuging) showToast("onInterstitialClicked");
-                //startActivity(new Intent(AfterTestActivity.this, FinishActivity.class));
-            }
-
-            @Override
-            public void onInterstitialClosed() {
-                if (Questions.isDebuging) showToast("onInterstitialClosed");
-                finish();
-                startActivity(new Intent(MainActivity.this, FinishActivity.class));
-            }
-        });
 
 
     }

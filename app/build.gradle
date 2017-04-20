@@ -11,10 +11,10 @@ android {
     defaultConfig {
         applicationId 'ru.kev163.trueorfalse'
         minSdkVersion 16
-        targetSdkVersion 19
-        versionName '1.1.17'
+        targetSdkVersion 23
+        versionName '1.1.18'
         signingConfig signingConfigs.config
-        versionCode 10117
+        versionCode 10118
         multiDexEnabled true
     }
     buildTypes {
